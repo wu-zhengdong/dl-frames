@@ -82,6 +82,10 @@ class ANN():
         :param y_train:
         :return:
         '''
+        # if y is a scalar
+        if y_train.ndim == 1:
+            y_train = y_train.reshape(-1, 1)
+
         input_size, output_size = X_train.shape[1], y_train.shape[1]
 
         self.net = self.model(input_size, output_size)
@@ -145,8 +149,9 @@ class ANN():
         plt.legend()
         plt.show()
 
-    def save_result(self, save_path):
+    def save_result(self, save_path, is_standard=False, is_PCA=False):
         layer_numbers = len(self.hidden_layers)
         hidden_layers = str(self.hidden_layers).replace(',', '')
-        tools.save_results(self.epoch, self.lr, layer_numbers, hidden_layers, self.mse, self.rmse, self.mae, self.r2, save_path)
+        tools.save_results(self.epoch, self.lr, layer_numbers, hidden_layers,
+                           self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
         print('Save results success!')

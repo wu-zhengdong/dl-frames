@@ -11,17 +11,17 @@ def calculate(true, prediction):
     print("mse: {}, rmse: {}, mae: {}, r2: {}".format(mse, rmse, mae, r2))
     return mse, rmse, mae, r2
 
-def save_results(epoch, lr, layer_numbers, hidden_layers, mse, rmse, mae, r2, save_file):
+def save_results(epoch, lr, layer_numbers, hidden_layers, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
 
     save_file = save_file
     if not os.path.exists(save_file):
         content = 'epoch' + ',' + 'lr' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' + 'mse' + \
-                  ',' + 'rmse' + ',' + 'mae' + ',' + 'r2'
+                  ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
         with open(save_file, 'a') as f:
             f.write(content)
             f.write('\n')
     content = str(epoch) + ',' + str(lr) + "," + str(layer_numbers) + ',' + str(hidden_layers) + ',' + str(mse) + ',' + \
-              str(rmse) + ',' + str(mae) + ',' + str(r2)
+              str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
