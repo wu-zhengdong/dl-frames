@@ -18,7 +18,7 @@ from frames import DeeplearningRegression
 # hidden layers 的神经元个数设置
 hidden_layers = [128, 64, 32]
 
-ann = DeeplearningRegression.ANN(hidden_layers, learning_rate=0.0001, epoch=10000)
+ann = DeeplearningRegression.ANN(hidden_layers, learning_rate=0.0001, epoch=10000, batch_size=512)
 # 训练模型
 ann.fit(X_train, y_train)
 # 计算模型分数

@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ac8c495-c9b4-450c-ac15-b6ed0d6b8686" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dl-frames.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ann.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/boston.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/boston.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/save_png/results.png" beforeDir="false" afterPath="$PROJECT_DIR$/example/save_png/results.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/DeeplearningRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningRegression.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/tools.py" afterDir="false" />
     </list>
@@ -21,8 +20,37 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/example/boston.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="78" selection-start-line="20" selection-start-column="78" selection-end-line="20" selection-end-column="78" />
+            <state relative-caret-position="240">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example/ann.csv">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="150" column="20" lean-forward="true" selection-start-line="150" selection-start-column="20" selection-end-line="150" selection-end-column="20" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/tools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="22" column="57" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -43,9 +71,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/bostond.py" />
+        <option value="$PROJECT_DIR$/boston.py" />
+        <option value="$PROJECT_DIR$/example/test.py" />
         <option value="$PROJECT_DIR$/frames/tools.py" />
         <option value="$PROJECT_DIR$/frames/DeeplearningRegression.py" />
-        <option value="$PROJECT_DIR$/boston.py" />
         <option value="$PROJECT_DIR$/example/boston.py" />
       </list>
     </option>
@@ -75,8 +104,7 @@
             <path>
               <item name="dl-frames" type="b2602c69:ProjectViewProjectNode" />
               <item name="dl-frames" type="462c0819:PsiDirectoryNode" />
-              <item name="example" type="462c0819:PsiDirectoryNode" />
-              <item name="save_png" type="462c0819:PsiDirectoryNode" />
+              <item name="frames" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -107,7 +135,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.boston">
+    <configuration name="DeeplearningRegression" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="dl-frames" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/frames" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/frames/DeeplearningRegression.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="boston" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="dl-frames" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -129,9 +178,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="dl-frames" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.boston" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.DeeplearningRegression" />
       </list>
     </recent_temporary>
   </component>
@@ -152,7 +224,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24954791" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24954791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -171,12 +243,27 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/example/boston.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/save_png/results.png" />
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
+    <entry file="file://$PROJECT_DIR$/ann.csv" />
+    <entry file="file://$PROJECT_DIR$/example/save_png/results.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="674">
-          <caret line="151" column="68" selection-start-line="151" selection-start-column="68" selection-end-line="151" selection-end-column="68" />
+        <state relative-caret-position="120">
+          <caret line="8" column="14" lean-forward="true" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -185,24 +272,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" selection-start-column="18" selection-end-column="18" />
+        <state relative-caret-position="330">
+          <caret line="22" column="57" selection-start-line="22" selection-start-column="57" selection-end-line="22" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ann.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example/save_png/results.png">
-      <provider selected="true" editor-type-id="images" />
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="150" column="20" lean-forward="true" selection-start-line="150" selection-start-column="20" selection-end-line="150" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/example/ann.csv">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/example/boston.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="78" selection-start-line="20" selection-start-column="78" selection-end-line="20" selection-end-column="78" />
+        <state relative-caret-position="240">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>

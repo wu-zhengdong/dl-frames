@@ -1,6 +1,9 @@
 import torch
 from torch.autograd import Variable
 from torch import nn
+from torch.utils.data import DataLoader
+
+import numpy as np
 import matplotlib.pyplot as plt
 from . import tools
 
@@ -75,6 +78,11 @@ class ANN():
 
         return seq_net
 
+    def create_batch_size(self, X_train, y_train):
+
+        datasets = torch.FloatTensor(np.c_[X_train, y_train])
+        batch_train_set = DataLoader(datasets, batch_size=self.batch_size, shuffle=True)
+        return batch_train_set
 
     def fit(self, X_train, y_train):
         '''
@@ -87,6 +95,7 @@ class ANN():
             y_train = y_train.reshape(-1, 1)
 
         input_size, output_size = X_train.shape[1], y_train.shape[1]
+        batch_train_set = self.create_batch_size(X_train, y_train)
 
         self.net = self.model(input_size, output_size)
         self.net.train()
@@ -94,14 +103,16 @@ class ANN():
         criterion = torch.nn.MSELoss()
 
         for e in range(self.epoch):
-            if torch.cuda.is_available():
-                #print('cuda')
-                self.net = self.net.cuda()
-                train_x = Variable(torch.FloatTensor(X_train)).cuda()
-                train_y = Variable(torch.FloatTensor(y_train)).cuda()
-            else:
-                train_x = Variable(torch.FloatTensor(X_train))
-                train_y = Variable(torch.FloatTensor(y_train))
+
+            for b_train in batch_train_set:
+                if torch.cuda.is_available():
+                    #print('cuda')
+                    self.net = self.net.cuda()
+                    train_x = Variable(b_train[:, :-1]).cuda()
+                    train_y = Variable(b_train[:, -1:]).cuda()
+                else:
+                    train_x = Variable(b_train[:, :-1])
+                    train_y = Variable(b_train[:, -1:])
 
             prediction = self.net(train_x)
 
@@ -152,6 +163,6 @@ class ANN():
     def save_result(self, save_path, is_standard=False, is_PCA=False):
         layer_numbers = len(self.hidden_layers)
         hidden_layers = str(self.hidden_layers).replace(',', '')
-        tools.save_results(self.epoch, self.lr, layer_numbers, hidden_layers,
+        tools.save_results(self.epoch, self.batch_size, self.lr, layer_numbers, hidden_layers,
                            self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
         print('Save results success!')
