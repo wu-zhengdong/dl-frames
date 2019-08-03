@@ -7,8 +7,11 @@
 ### 2019/08/03: add DeeplearningRegression CNN model. './frames/DeeplearningRegression.py'
 ### 增加了梯度衰减策略，ANN，CNN 模型上限为 5 层。
 
+### 2019/08/04: add DeeplearningRegression LSTM model. './frams/DeeplearningRegression.py'
+
 
 ## 使用例子
 
-### 'Example_ANN_boston (Regression).ipynb' ANN回归模型使用例子
-### 'Example_CNN_boston (Regression).ipynb' CNN回归模型使用例子
+### 'ANN Example (Regression).ipynb' ANN回归模型使用例子
+### 'CNN Example (Regression).ipynb' CNN回归模型使用例子
+### 'LSTM Example (Regression).ipynb' CNN回归模型使用例子

@@ -12,6 +12,21 @@ def calculate(true, prediction):
     return mse, rmse, mae, r2
 
 
+def create_dataset(dataset, look_back=7):
+    dataX, dataY = [], []
+    for i in range(len(dataset) - look_back):
+        # if dataset.shape[1] == 1:
+        a = dataset[i:(i + look_back)]
+        dataX.append(a)
+        dataY.append(dataset[i + look_back, -1:])
+        # dataY.append(dataset[i + look_back])
+        # else:
+        #     a = dataset[i:(i + look_back), :-1]
+        #     dataX.append(a)
+        #     dataY.append(dataset[i + look_back, -1:])
+    return np.array(dataX), np.array(dataY)
+
+
 def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
 
     save_file = save_file
@@ -44,6 +59,22 @@ def save_cnn_results(epoch, batch_size, lr, dropout, conv_layers, channle_number
               + str(conv_kernel_size) + ',' + str(conv_stride) + ',' + str(pooling_size) + ',' + str(pooling_stride) + ',' \
               + str(flatten) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + \
               str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
+    with open(save_file, 'a') as f:
+        f.write(content)
+        f.write('\n')
+
+
+def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
+
+    save_file = save_file
+    if not os.path.exists(save_file):
+        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_size' + ',' + 'hidden_size' + ','\
+                  + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+        with open(save_file, 'a') as f:
+            f.write(content)
+            f.write('\n')
+    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(num_layers) + ','  \
+              + str(hidden_size) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')

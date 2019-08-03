@@ -104,16 +104,22 @@ class ANN():
 
         self.net = self.model(input_size, output_size)
         self.net.train()
-        optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+        try:
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+        except:
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
         criterion = torch.nn.MSELoss()
 
         for e in range(self.epoch):
 
-            # 梯度衰减
-            if (self.epoch + 1) % 2000 == 0:
-                optim.param_groups[0]["lr"] = self.lr[1]
-            if (self.epoch + 1) % 4000 == 0:
-                optim.param_groups[0]["lr"] = self.lr[2]
+            # 是否使用 梯度衰减
+            try:
+                if (self.epoch + 1) % (self.epoch // 3) == 0:
+                    optim.param_groups[0]["lr"] = self.lr[1]
+                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                    optim.param_groups[0]["lr"] = self.lr[2]
+            except:
+                pass
 
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
@@ -355,14 +361,14 @@ class CNN(object):
         try:
             optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
         except:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
         criterion = torch.nn.MSELoss()
 
         for e in range(self.epoch):
 
             # 是否使用 梯度衰减
             try:
-                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                if (self.epoch + 1) % (self.epoch // 3) == 0:
                     optim.param_groups[0]["lr"] = self.lr[1]
                 if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
                     optim.param_groups[0]["lr"] = self.lr[2]
@@ -438,4 +444,175 @@ class CNN(object):
         tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers, self.kernel_size
                            , self.conv_stride, self.pooling_size, self.pool_stride, self.flatten, self.activate_function, self.mse,
                            self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
+        print('Save results success!')
+
+
+
+'''
+LSTM model
+'''
+
+
+class lstm_network(nn.Module):
+    def __init__(self, input_size, hidden_size, num_layers, output_size, dropout, activate_function):
+        super(lstm_network, self).__init__()
+        self.hidden_size = hidden_size
+        self.rnn = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.predict = nn.Sequential(
+            activate_function,
+            nn.Dropout(dropout),
+            nn.Linear(hidden_size, output_size)
+        )
+    def forward(self, x):
+        x, (h, o) = self.rnn(x, None)
+        # 将最后一个时间片扔进 Linear
+        out = self.predict(x[:, -1, :])
+        return out
+
+
+class LSTM():
+    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu', epoch=2000, batch_size=128):
+        # self.layers = layers
+        self.num_layers = num_layers
+        self.hidden_size = hidden_size
+        self.lr = learning_rate
+        self.dropout = dropout
+        self.activate_function = activate_function
+        self.epoch = epoch
+        self.batch_size = batch_size
+
+        self.TrainLosses = []
+
+    def create_batch_size(self, X_train, y_train):
+        p = np.random.permutation(X_train.shape[0])
+        data = X_train[p]
+        label = y_train[p]
+
+        batch_size = self.batch_size
+        batch_len = X_train.shape[0] // batch_size + 1
+
+        b_datas = []
+        b_labels = []
+        for i in range(batch_len):
+            try:
+                batch_data = data[batch_size * i: batch_size * (i + 1)]
+                batch_label = label[batch_size * i: batch_size * (i + 1)]
+            except:
+                batch_data = data[batch_size * i: -1]
+                batch_label = label[batch_size * i: -1]
+            b_datas.append(batch_data)
+            b_labels.append(batch_label)
+
+        return b_datas, b_labels
+
+    def fit(self, X_train, y_train):
+        '''
+        :param X_train:
+        :param y_train:
+        :return:
+        '''
+        # if y is a scalar
+        if y_train.ndim == 1:
+            y_train = y_train.reshape(-1, 1)
+
+        input_size, output_size = X_train.shape[-1], y_train.shape[-1]
+
+        b_data, b_labels = self.create_batch_size(X_train, y_train)
+
+        # 搭建 lstm 网络
+        # 判断 激活函数
+        if self.activate_function == 'relu':
+            activate_function = nn.ReLU(True)
+        if self.activate_function == 'sigmoid':
+            activate_function = nn.Sigmoid(True)
+        if self.activate_function == 'tanh':
+            activate_function = nn.Tanh(True)
+        self.net = lstm_network(input_size=input_size, hidden_size=self.hidden_size, num_layers=self.num_layers,
+                                output_size=output_size, dropout=self.dropout, activate_function=activate_function)
+
+        self.net.train()
+        try:
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+        except:
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
+        criterion = torch.nn.MSELoss()
+
+        for e in range(self.epoch):
+
+            # 是否使用 梯度衰减
+            try:
+                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                    optim.param_groups[0]["lr"] = self.lr[1]
+                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                    optim.param_groups[0]["lr"] = self.lr[2]
+            except:
+                pass
+
+            for i in range(len(b_data)):
+                if torch.cuda.is_available():
+                    #print('cuda')
+                    self.net = self.net.cuda()
+                    train_x = Variable(torch.FloatTensor(b_data[i])).cuda()
+                    train_y = Variable(torch.FloatTensor(b_labels[i])).cuda()
+                else:
+                    train_x = Variable(torch.FloatTensor(b_data[i]))
+                    train_y = Variable(torch.FloatTensor(b_labels[i]))
+
+                prediction = self.net(train_x)
+
+                loss = criterion(prediction, train_y)
+
+                optim.zero_grad()
+                loss.backward()
+                optim.step()
+
+            self.TrainLosses.append(loss.cpu().data.numpy())
+
+            if (e + 1) % 100 == 0:
+                print('Training... epoch: {}, loss: {}'.format((e+1), loss.cpu().data.numpy()))
+
+        print('Training completed!')
+
+    def predict(self, X_test):
+
+        self.net.eval()
+        if torch.cuda.is_available():
+            test_x = Variable(torch.FloatTensor(X_test)).cuda()
+            prediction = self.net(test_x).cpu()
+        else:
+            test_x = Variable(torch.FloatTensor(X_test))
+            prediction = self.net(test_x)
+
+        return prediction
+
+    def score(self, X_test, y_test):
+
+        prediction = self.predict(X_test).data.numpy()
+        self.mse, self.rmse, self.mae, self.r2 = tools.calculate(y_test, prediction)
+
+    def result_plot(self, X_test, y_test, save_file, is_show=False):
+
+        prediction = self.predict(X_test).data.numpy()
+        plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
+        plt.plot(range(len(y_test)), y_test, 'b--', label="true")
+        plt.legend()
+        plt.savefig(save_file)
+        if is_show:
+            plt.show()
+        plt.close()
+        print('Save the picture successfully!')
+
+    def loss_plot(self):
+
+        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="loss")
+        plt.legend()
+        plt.show()
+
+    def save_result(self, save_path, is_standard=False, is_PCA=False):
+        try:
+            lr = str(self.lr).replace(',', '')
+        except:
+            lr = self.lr
+        tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
+                           self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
         print('Save results success!')
