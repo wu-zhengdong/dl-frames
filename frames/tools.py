@@ -11,17 +11,39 @@ def calculate(true, prediction):
     print("mse: {}, rmse: {}, mae: {}, r2: {}".format(mse, rmse, mae, r2))
     return mse, rmse, mae, r2
 
-def save_results(epoch, batch_size, lr, layer_numbers, hidden_layers, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
+
+def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
 
     save_file = save_file
     if not os.path.exists(save_file):
-        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' + 'mse' + \
-                  ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ','\
+                  + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
         with open(save_file, 'a') as f:
             f.write(content)
             f.write('\n')
-    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(layer_numbers) + ',' + str(hidden_layers) + ',' + str(mse) + ',' + \
-              str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
+    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) + ',' \
+              + str(hidden_layers) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
+    with open(save_file, 'a') as f:
+        f.write(content)
+        f.write('\n')
+
+
+def save_cnn_results(epoch, batch_size, lr, dropout, conv_layers, channle_numbers, conv_kernel_size, conv_stride, pooling_size, pooling_stride,
+                 flatten, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
+
+    save_file = save_file
+    if not os.path.exists(save_file):
+        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'conv_layers' + ',' + \
+                  'channle_numbers' + ',' + 'conv_kernel_size' + ',' + 'conv_stride' + ',' + 'pooling_kernel_size' + \
+                  ',' + 'pooling_stride' + ',' + 'flatten' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + \
+                  ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+        with open(save_file, 'a') as f:
+            f.write(content)
+            f.write('\n')
+    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(conv_layers) + ',' + str(channle_numbers) + ',' \
+              + str(conv_kernel_size) + ',' + str(conv_stride) + ',' + str(pooling_size) + ',' + str(pooling_stride) + ',' \
+              + str(flatten) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + \
+              str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
