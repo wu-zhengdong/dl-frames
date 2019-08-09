@@ -2,8 +2,11 @@ import numpy as np
 from sklearn import metrics
 import os
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix
+import torch
 
-def calculate(true, prediction):
+
+def reg_calculate(true, prediction):
     mse = metrics.mean_squared_error(true, prediction)
     rmse = np.sqrt(mse)
     mae = metrics.mean_absolute_error(true, prediction)
@@ -11,6 +14,22 @@ def calculate(true, prediction):
 
     print("mse: {}, rmse: {}, mae: {}, r2: {}".format(mse, rmse, mae, r2))
     return mse, rmse, mae, r2
+
+
+def clf_calculate(true, prediction):
+    acc = metrics.accuracy_score(true, prediction)
+    precision = metrics.precision_score(true, prediction, average='macro')
+    recall = metrics.recall_score(true, prediction, average='macro')
+    f1 = metrics.f1_score(true, prediction, average='macro')
+
+    print('acc: {}, precision: {}, recall: {}, f1: {}'.format(acc, precision, recall, f1))
+    return acc, precision, recall, f1
+
+
+def confusion_matrix_result(true, prediction):
+    cfm = confusion_matrix(true, prediction)
+    return cfm
+
 
 def create_dataset(dataset, look_back=7):
     dataX, dataY = [], []
@@ -97,17 +116,35 @@ def train_test_split(X, y, test_size=0.2, random_state=19):
 #     return np.array(Train_dataX), np.array(Test_dataX), np.array(Train_dataY), np.array(Test_dataY)
 
 
-def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
+def cross_entropy_erorr(y, t):
+    delta = 1e-7
+    return -torch.sum(t * torch.log(y + delta))
 
-    save_file = save_file
-    if not os.path.exists(save_file):
-        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ','\
-                  + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
-        with open(save_file, 'a') as f:
-            f.write(content)
-            f.write('\n')
-    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) + ',' \
-              + str(hidden_layers) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
+
+def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function, value1, value2,
+                     value3, value4, is_standrad, is_PCA, save_file, train_type):
+
+    if train_type == 'regression':
+        if not os.path.exists(save_file):
+            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' \
+                      + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+            with open(save_file, 'a') as f:
+                f.write(content)
+                f.write('\n')
+        content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) +\
+                  ',' + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + ',' \
+                  + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' + str(is_PCA)
+    if train_type == 'classification':
+        if not os.path.exists(save_file):
+            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' \
+                      + 'activate function' + ',' + 'acc' + ',' + 'precision' + ',' + 'recall' + ',' + 'f1' + ',' + 'is_standard' + ',' + 'is_PCA'
+            with open(save_file, 'a') as f:
+                f.write(content)
+                f.write('\n')
+        content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(
+            layer_numbers) + ',' \
+                  + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + ',' + str(
+            value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' + str(is_PCA)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')

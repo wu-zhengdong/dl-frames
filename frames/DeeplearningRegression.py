@@ -163,7 +163,7 @@ class ANN():
     def score(self, X_test, y_test):
 
         prediction = self.predict(X_test).data.numpy()
-        self.mse, self.rmse, self.mae, self.r2 = tools.calculate(y_test, prediction)
+        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 
@@ -191,7 +191,8 @@ class ANN():
         except:
             lr = self.lr
         tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
-                           self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
+                           self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA,
+                               save_path, train_type='regression')
         print('Save results success!')
 
 
@@ -404,7 +405,7 @@ class CNN(object):
     def score(self, X_test, y_test):
 
         prediction = self.predict(X_test).data.numpy()
-        self.mse, self.rmse, self.mae, self.r2 = tools.calculate(y_test, prediction)
+        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 
@@ -561,7 +562,7 @@ class LSTM():
     def score(self, X_test, y_test):
 
         prediction = self.predict(X_test).data.numpy()
-        self.mse, self.rmse, self.mae, self.r2 = tools.calculate(y_test, prediction)
+        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 

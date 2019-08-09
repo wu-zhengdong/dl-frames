@@ -9,9 +9,14 @@
 
 ### 2019/08/04: add DeeplearningRegression LSTM model. './frams/DeeplearningRegression.py'
 
+### 2019/08/09: add DeeplearningClassification ANN model. './frams/DeeplearningClassification.py'
+三大基本模型的回归框架已经完成，分类完成ANNmodel，cnn，lstm仍在继续。
 
 ## 使用例子
+### Regression
+'ANN Example (Regression).ipynb' ANN回归模型使用例子
+'CNN Example (Regression).ipynb' CNN回归模型使用例子
+'LSTM Example (Regression).ipynb' LSTM回归模型使用例子
+### Classification
+'ANN Example (Classification).ipynb' ANN分类模型使用例子
 
-### 'ANN Example (Regression).ipynb' ANN回归模型使用例子
-### 'CNN Example (Regression).ipynb' CNN回归模型使用例子
-### 'LSTM Example (Regression).ipynb' CNN回归模型使用例子
