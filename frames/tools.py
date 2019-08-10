@@ -134,3 +134,18 @@ def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, a
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
+
+
+def save_elm(hidden_nodes, mse, rmse, mae, r2, is_standard, is_pca, save_file):
+    if not os.path.exists(save_file):
+        content = 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'R2' + ',' + 'is_standrad' + ',' \
+                  + 'is_pca'
+        with open(save_file, 'a') as f:
+            f.write(content)
+            f.write('\n')
+
+    content = str(hidden_nodes) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + \
+              str(is_standard) + ',' + str(is_pca)
+    with open(save_file, 'a') as f:
+        f.write(content)
+        f.write('\n')

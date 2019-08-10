@@ -1,3 +1,4 @@
 epoch,batch_size,lr,dropout,hidden_layer_number,hidden_neurons,activate function,acc,precision,recall,f1,is_standard,is_PCA
 1000,32,[0.001 1e-05 1e-07],0,2,[128 64],relu,1.0,1.0,1.0,1.0,False,False
 1000,256,[0.001 1e-05 1e-07],0,2,[128 64],relu,0.975,0.9749178759250606,0.9756050047513461,0.9747525690059587,False,False
+1000,256,[0.001 1e-05 1e-07],0,2,[128 64],relu,0.9805555555555555,0.9809432234432235,0.9797543378031184,0.9799572830660953,False,False
