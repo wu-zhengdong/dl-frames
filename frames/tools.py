@@ -31,12 +31,25 @@ def confusion_matrix_result(true, prediction):
     return cfm
 
 
-def create_dataset(dataset, look_back=7):
+def create_dataset(dataset, look_back=7, need_label=True):
     dataX, dataY = [], []
-    for i in range(len(dataset) - look_back):
-        a = dataset[i:(i + look_back)]
-        dataX.append(a)
-        dataY.append(dataset[i + look_back])
+
+    if dataset.shape[1] == 1:
+        for i in range(len(dataset) - look_back):
+            a = dataset[i:(i + look_back)]
+            dataX.append(a)
+            dataY.append(dataset[i + look_back])
+    else:
+        if need_label:
+            for i in range(len(dataset) - look_back):
+                a = dataset[i:(i + look_back)]
+                dataX.append(a)
+                dataY.append(dataset[i + look_back, -1:])
+        else:
+            for i in range(len(dataset) - look_back):
+                a = dataset[i:(i + look_back), :-1]
+                dataX.append(a)
+                dataY.append(dataset[i + look_back, -1:])
     return np.array(dataX), np.array(dataY)
 
 
@@ -50,70 +63,6 @@ def train_test_split(X, y, test_size=0.2, random_state=19):
     X_train, X_test = data[:train_size], data[train_size:]
     y_train, y_test = label[:train_size], label[train_size:]
     return X_train, X_test, y_train, y_test
-
-# def create_dataset(dataset, test_size=0.2, look_back=7):
-#
-#     # 划分数据集
-#     train_size = int(len(dataset) * (1-test_size))
-#
-#     if dataset.shape[1] == 1:
-#         Train_dataset = dataset[:train_size]
-#         Test_dataset = dataset[train_size:]
-#
-#         standard = StandardScaler()
-#         standard.fit(Train_dataset)
-#         Train_dataset = standard.transform(Train_dataset)
-#         Test_dataset = standard.transform(Test_dataset)
-#
-#         # 构建数据集
-#         Train_dataX, Train_dataY = [], []
-#         Test_dataX, Test_dataY = [], []
-#
-#         for i in range(len(Train_dataset) - look_back):
-#             a = Train_dataset[i:(i + look_back)]
-#             Train_dataX.append(a)
-#             Train_dataY.append(Train_dataset[i + look_back, -1:])
-#
-#         for i in range(len(Test_dataset) - look_back):
-#             a = Test_dataset[i:(i + look_back)]
-#             Test_dataX.append(a)
-#             Test_dataY.append(Test_dataset[i + look_back, -1:])
-#
-#     else:
-#         X_train = dataset[:train_size, :-1]
-#         X_test = dataset[train_size:, :-1]
-#
-#         y_train = dataset[:train_size, -1:]
-#         y_test = dataset[train_size:, -1:]
-#
-#         standard = StandardScaler()
-#         standard.fit(X_train)
-#         X_train_standard = standard.transform(X_train)
-#         X_test_standard = standard.transform(X_test)
-#
-#         standard.fit(y_train)
-#         y_train_standard = standard.transform(y_train)
-#         y_test_satndard = standard.transform(y_test)
-#
-#         Train_dataset = np.c_[X_train_standard, y_train_standard, y_train]
-#         Test_dataset = np.c_[X_test_standard, y_test_satndard, y_test]
-#
-#
-#         # 构建数据集
-#         Train_dataX, Train_dataY = [], []
-#         Test_dataX, Test_dataY = [], []
-#
-#
-#         for i in range(len(Train_dataset) - look_back):
-#             a = Train_dataset[i:(i + look_back), :-1]
-#             Train_dataX.append(a)
-#             Train_dataY.append(Train_dataset[i + look_back, -1:])
-#
-#         for i in range(len(Test_dataset) - look_back):
-#             a = Test_dataset[i:(i + look_back), :-1]
-#             Test_dataX.append(a)
-#             Test_dataY.append(Test_dataset[i + look_back, -1:])
-#     return np.array(Train_dataX), np.array(Test_dataX), np.array(Train_dataY), np.array(Test_dataY)
 
 
 def cross_entropy_erorr(y, t):

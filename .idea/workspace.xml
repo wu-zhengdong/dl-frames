@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ac8c495-c9b4-450c-ac15-b6ed0d6b8686" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/frames/DeeplearningRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningRegression.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/LSTM Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/LSTM Example (Regression)-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example_save_resultes/lstm_result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/lstm_result.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example_save_resultes/save_pngs/lstm_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/save_pngs/lstm_picture.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSTM Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/LSTM Example (Regression).ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/tools.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,11 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frames/tools.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="120" column="47" lean-forward="true" selection-start-line="120" selection-start-column="47" selection-end-line="120" selection-end-column="47" />
+            <state relative-caret-position="182">
+              <caret line="40" column="48" lean-forward="true" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="48" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -37,7 +40,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="462">
@@ -160,7 +163,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.clf_test">
+  <component name="RunManager" selected="Python.tools">
     <configuration name="Based_model" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="dl-frames" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -268,8 +271,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.clf_test" />
         <item itemvalue="Python.tools" />
+        <item itemvalue="Python.clf_test" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.Based_model" />
         <item itemvalue="Python.DeeplearningRegression" />
@@ -411,16 +414,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="120" column="47" lean-forward="true" selection-start-line="120" selection-start-column="47" selection-end-line="120" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clf_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -437,6 +430,16 @@
           <caret line="220" column="101" selection-start-line="220" selection-start-column="101" selection-end-line="220" selection-end-column="101" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="40" column="48" lean-forward="true" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

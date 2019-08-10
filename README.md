@@ -12,6 +12,8 @@
 ### 2019/08/09: add DeeplearningClassification ANN model. './frams/DeeplearningClassification.py'
 三大基本模型的回归框架已经完成，分类完成ANNmodel，cnn，lstm仍在继续。
 
+### 2019/08/10: 更新 tools 里面的 create_dataset 函数，适用于 lstm model 数据集构建，example 里写了注释。
+
 ## 使用例子
 ### Regression
 'ANN Example (Regression).ipynb' ANN回归模型使用例子
