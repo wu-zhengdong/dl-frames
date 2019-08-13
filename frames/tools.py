@@ -1,12 +1,19 @@
 import numpy as np
 from sklearn import metrics
 import os
-from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import confusion_matrix
 import torch
 
+'''
+This is a toolkit that provides calculations, save results, create data set, plot result pictures.
+'''
+
 
 def reg_calculate(true, prediction):
+    '''
+        To calculate the result of regression,
+        including mse, rmse, mae, r2, four criterions.
+    '''
     mse = metrics.mean_squared_error(true, prediction)
     rmse = np.sqrt(mse)
     mae = metrics.mean_absolute_error(true, prediction)
@@ -17,6 +24,10 @@ def reg_calculate(true, prediction):
 
 
 def clf_calculate(true, prediction):
+    '''
+        To calculate the result of classification,
+        including acc, precision, recall, f1, four criterions.
+    '''
     acc = metrics.accuracy_score(true, prediction)
     precision = metrics.precision_score(true, prediction, average='macro')
     recall = metrics.recall_score(true, prediction, average='macro')
@@ -27,11 +38,17 @@ def clf_calculate(true, prediction):
 
 
 def confusion_matrix_result(true, prediction):
+    '''
+        Got the confusion matrix.
+    '''
     cfm = confusion_matrix(true, prediction)
     return cfm
 
 
 def create_dataset(dataset, look_back=7, need_label=True):
+    '''
+        Create new structure of origin dataset to adapt LSTM network.
+    '''
     dataX, dataY = [], []
 
     if dataset.shape[1] == 1:
@@ -54,6 +71,7 @@ def create_dataset(dataset, look_back=7, need_label=True):
 
 
 def train_test_split(X, y, test_size=0.2, random_state=19):
+
     np.random.seed(random_state)
     train_size = int(len(X) * (1 - test_size))
     p = np.random.permutation(X.shape[0])
@@ -66,86 +84,109 @@ def train_test_split(X, y, test_size=0.2, random_state=19):
 
 
 def cross_entropy_erorr(y, t):
+    ''' Self-defined cross entropy function '''
     delta = 1e-7
     return -torch.sum(t * torch.log(y + delta))
 
 
 def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function, value1, value2,
-                     value3, value4, is_standrad, is_PCA, save_file, train_type):
+                     value3, value4, is_standrad, Dimensionality_reduction_method, save_file, train_type):
 
+    # save the regression results
     if train_type == 'regression':
         if not os.path.exists(save_file):
-            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' \
-                      + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' \
+                      + 'hidden_neurons' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' \
+                      + 'r2' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
             with open(save_file, 'a') as f:
                 f.write(content)
                 f.write('\n')
-        content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) +\
-                  ',' + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + ',' \
-                  + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' + str(is_PCA)
+        content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) \
+                  + ',' + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) \
+                  + ',' + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' \
+                  + str(Dimensionality_reduction_method)
+    # save the classification results
     if train_type == 'classification':
         if not os.path.exists(save_file):
-            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' \
-                      + 'activate function' + ',' + 'acc' + ',' + 'precision' + ',' + 'recall' + ',' + 'f1' + ',' + 'is_standard' + ',' + 'is_PCA'
+            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' \
+                      + 'hidden_neurons' + ',' + 'activate function' + ',' + 'acc' + ',' + 'precision' + ',' + \
+                      'recall' + ',' + 'f1' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
             with open(save_file, 'a') as f:
                 f.write(content)
                 f.write('\n')
         content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(
             layer_numbers) + ',' \
-                  + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + ',' + str(
-            value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' + str(is_PCA)
+                  + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + \
+                  ',' + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' \
+                  + str(Dimensionality_reduction_method)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
 
 
-def save_cnn_results(epoch, batch_size, lr, dropout, conv_layers, channle_numbers, conv_kernel_size, conv_stride, pooling_size, pooling_stride,
-                 flatten, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
+def save_cnn_results(epoch, batch_size, lr, dropout, conv_layers, channle_numbers, conv_kernel_size, conv_stride,
+                     pooling_size, pooling_stride, flatten, activate_function, mse, rmse, mae, r2, is_standrad,
+                     Dimensionality_reduction_method, save_file):
 
     save_file = save_file
     if not os.path.exists(save_file):
         content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'conv_layers' + ',' + \
                   'channle_numbers' + ',' + 'conv_kernel_size' + ',' + 'conv_stride' + ',' + 'pooling_kernel_size' + \
                   ',' + 'pooling_stride' + ',' + 'flatten' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + \
-                  ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+                  ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
         with open(save_file, 'a') as f:
             f.write(content)
             f.write('\n')
-    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(conv_layers) + ',' + str(channle_numbers) + ',' \
-              + str(conv_kernel_size) + ',' + str(conv_stride) + ',' + str(pooling_size) + ',' + str(pooling_stride) + ',' \
-              + str(flatten) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + \
-              str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
+    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(conv_layers) + ',' + \
+              str(channle_numbers) + ',' + str(conv_kernel_size) + ',' + str(conv_stride) + ',' + str(pooling_size) + \
+              ',' + str(pooling_stride) + ',' + str(flatten) + ',' + str(activate_function) + ',' + str(mse) + ',' + \
+              str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + \
+              str(Dimensionality_reduction_method)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
 
 
-def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function, mse, rmse, mae, r2, is_standrad, is_PCA, save_file):
+def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function, mse, rmse, mae,
+                      r2, is_standrad, Dimensionality_reduction_method, save_file):
 
     save_file = save_file
     if not os.path.exists(save_file):
-        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_size' + ',' + 'hidden_size' + ','\
-                  + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'is_PCA'
+        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_size' + ',' \
+                  + 'hidden_size' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + \
+                  'r2' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
         with open(save_file, 'a') as f:
             f.write(content)
             f.write('\n')
     content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(num_layers) + ','  \
-              + str(hidden_size) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + str(is_PCA)
+              + str(hidden_size) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) +\
+              ',' + str(r2) + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
 
 
-def save_elm(hidden_nodes, mse, rmse, mae, r2, is_standard, is_pca, save_file):
-    if not os.path.exists(save_file):
-        content = 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'R2' + ',' + 'is_standrad' + ',' \
-                  + 'is_pca'
-        with open(save_file, 'a') as f:
-            f.write(content)
-            f.write('\n')
+def save_elm(hidden_nodes, value1, value2, value3, value4, is_standard, Dimensionality_reduction_method, save_file, train_type):
 
-    content = str(hidden_nodes) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + \
-              str(is_standard) + ',' + str(is_pca)
+    if train_type == 'Regression':
+        if not os.path.exists(save_file):
+            content = 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'R2' + ',' + 'is_standrad' + ',' \
+                      + 'Dimensionality_reduction_method'
+            with open(save_file, 'a') as f:
+                f.write(content)
+                f.write('\n')
+
+        content = str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' + str(value3) + ',' + \
+                  str(value4) + ',' + str(is_standard) + ',' + str(Dimensionality_reduction_method)
+    if train_type == 'Classification':
+        if not os.path.exists(save_file):
+            content = 'hidden_nodes' + ',' + 'ACC' + ',' + 'Precision' + ',' + 'Recall' + ',' + 'F1' + ',' + \
+                      'is_standrad' + ',' + 'Dimensionality_reduction_method'
+            with open(save_file, 'a') as f:
+                f.write(content)
+                f.write('\n')
+        content = str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' + str(value3) + ',' + \
+                  str(value4) + ',' + str(is_standard) + ',' + str(Dimensionality_reduction_method)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')

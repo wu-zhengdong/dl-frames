@@ -1,5 +1,9 @@
 from torch import nn
 
+'''
+This file include the base model of deep learning.
+'''
+
 
 class conv_bn_net(nn.Module):
     def __init__(self, conv_bn, linear_layers):

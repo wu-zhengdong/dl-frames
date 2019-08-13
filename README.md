@@ -12,8 +12,10 @@
 ### 2019/08/09: add DeeplearningClassification ANN model. './frams/DeeplearningClassification.py'
 三大基本模型的回归框架已经完成，分类完成ANNmodel，cnn，lstm仍在继续。
 
-### 2019/08/10: 更新 tools 里面的 create_dataset 函数，适用于 lstm model 数据集构建，example 里写了注释。add ELMRegression model (极限学习机) './frams/elm.py'
+### 2019/08/10: 更新 tools 里面的 create_dataset 函数，适用于 lstm model 数据集构建，example 里写了注释。add ELMRegression model (极限学习机回归模型) './frams/elm.py'
 
+### 2019/08/09: add ElmClassification.py （极限学习机分类模型）
+*修改了 is_PCA 的保存参数，改为自由填充降维方法（str）*
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子
@@ -22,5 +24,6 @@
 4.'ELM Example (Regression).ipynb' ELM回归模型使用例子
 ### Classification
 1.'ANN Example (Classification).ipynb' ANN分类模型使用例子
+2.'ELM Example (Classification).ipynb' Elm分类模型使用例子
 
 

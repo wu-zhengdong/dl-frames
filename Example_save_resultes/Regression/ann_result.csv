@@ -1,2 +1,2 @@
-epoch,batch_size,lr,dropout,hidden_layer_number,hidden_neurons,activate function,mse,rmse,mae,r2,is_standard,is_PCA
-10000,256,[0.001 1e-05 1e-07],0,2,[128 64],relu,14.01568866238318,3.7437532854587494,2.5027633554795212,0.8660485778090674,False,False
+epoch,batch_size,lr,dropout,hidden_layer_number,hidden_neurons,activate function,mse,rmse,mae,r2,is_standard,Dimensionality_reduction_method
+10000,256,[0.001 1e-05 1e-07],0,2,[128 64],relu,16.92114225769358,4.113531604071322,2.7077720847784295,0.8382804352242413,False,None

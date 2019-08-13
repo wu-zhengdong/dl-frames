@@ -9,10 +9,14 @@ from . import tools
 from .Based_model import conv_bn_net
 from .Based_model import lstm_network
 
+'''
+The frames of deep learning technology with regression problems, including ANN, CNN, LSTM network.
+'''
+
 
 class ANN():
     def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', epoch=2000, batch_size=128):
-        # self.layers = layers
+
         self.hidden_layers = hidden_layers
         self.lr = learning_rate
         self.dropout = dropout
@@ -23,7 +27,7 @@ class ANN():
         self.TrainLosses = []
 
     def model(self, input_size, output_size):
-        ''' 搭建网络 '''
+        ''' create network '''
         hidden_layers = self.hidden_layers
         layers = []
 
@@ -64,23 +68,41 @@ class ANN():
 
         if hidden_layers_number == 2:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4], layers[5], layers[6]
+                layers[0], layers[1], layers[2], layers[3],layers[4],
+                layers[5], layers[6]
             )
         if hidden_layers_number == 3:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4], layers[5], layers[6], layers[7], layers[8], layers[9]
+                layers[0], layers[1], layers[2], layers[3],layers[4],
+                layers[5], layers[6],
+                layers[7], layers[8], layers[9]
             )
 
         if hidden_layers_number == 4:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4], layers[5], layers[6], layers[7], layers[8],
-                layers[9], layers[10], layers[11], layers[12], layers[13]
+                layers[0], layers[1], layers[2], layers[3], layers[4],
+                layers[5], layers[6],
+                layers[7], layers[8], layers[9],
+                layers[10], layers[11], layers[12], layers[13]
             )
 
         if hidden_layers_number == 5:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4], layers[5], layers[6], layers[7], layers[8],
-                layers[9], layers[10], layers[11], layers[12], layers[13], layers[14], layers[15], layers[16], layers[17], layers[18]
+                layers[0], layers[1], layers[2], layers[3], layers[4],
+                layers[5], layers[6],
+                layers[7], layers[8], layers[9],
+                layers[10], layers[11], layers[12], layers[13],
+                layers[14], layers[15], layers[16], layers[17], layers[18]
+            )
+
+        if hidden_layers_number == 6:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2], layers[3], layers[4],
+                layers[5], layers[6],
+                layers[7], layers[8], layers[9],
+                layers[10], layers[11], layers[12], layers[13],
+                layers[14], layers[15], layers[16], layers[17], layers[18],
+                layers[19], layers[20], layers[21], layers[22], layers[23], layers[24]
             )
 
         return seq_net
@@ -92,11 +114,7 @@ class ANN():
         return batch_train_set
 
     def fit(self, X_train, y_train):
-        '''
-        :param X_train:
-        :param y_train:
-        :return:
-        '''
+        ''' training the network '''
         # if y is a scalar
         if y_train.ndim == 1:
             y_train = y_train.reshape(-1, 1)
@@ -183,7 +201,7 @@ class ANN():
         plt.legend()
         plt.show()
 
-    def save_result(self, save_path, is_standard=False, is_PCA=False):
+    def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
         layer_numbers = len(self.hidden_layers)
         hidden_layers = str(self.hidden_layers).replace(',', '')
         try:
@@ -191,8 +209,8 @@ class ANN():
         except:
             lr = self.lr
         tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
-                           self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA,
-                               save_path, train_type='regression')
+                               self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard,
+                               Dimensionality_reduction_method, save_path, train_type='regression')
         print('Save results success!')
 
 
@@ -205,8 +223,8 @@ CNN model
 
 
 class CNN(object):
-    def __init__(self, learning_rate, conv_stride = 1, kernel_size=3, pooling_size=2, pool_stride = 2, channel_numbers = [], flatten = 1024,
-                activate_function='relu', dropout=0, epoch=2000, batch_size=128):
+    def __init__(self, learning_rate, conv_stride = 1, kernel_size=3, pooling_size=2, pool_stride = 2,
+                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0, epoch=2000, batch_size=128):
 
         self.conv_stride = conv_stride
         self.kernel_size = kernel_size
@@ -253,21 +271,23 @@ class CNN(object):
 
         # input layer
         padding = self.conv_padding_same(input_size) # 计算要补几层 0
-        conv1 = nn.Conv2d(input_channle, self.channel_numbers[0], kernel_size=self.kernel_size, stride=self.conv_stride, padding=padding)
+        conv1 = nn.Conv2d(input_channle, self.channel_numbers[0], kernel_size=self.kernel_size,
+                          stride=self.conv_stride, padding=padding)
         pool1 = nn.MaxPool2d(self.pooling_size, self.pool_stride)
         layers.append(conv1)
         layers.append(nn.BatchNorm2d(self.channel_numbers[0]))
         layers.append(activate_function)
         layers.append(nn.Dropout(self.dropout))
         layers.append(pool1)
-        W_in = (input_size - 1) // 2 + 1
+        W_in = (input_size - 1) // 2 + 1 # To calculate the shape of matrix after pooling layer.
 
         # hidden layers
         hidden_layers_number = len(self.channel_numbers)
         for i in range(hidden_layers_number):
             try:
                 padding = self.conv_padding_same(W_in)
-                layers.append(nn.Conv2d(self.channel_numbers[i], self.channel_numbers[i + 1], kernel_size=self.kernel_size, stride=self.conv_stride, padding=padding))
+                layers.append(nn.Conv2d(self.channel_numbers[i], self.channel_numbers[i + 1],
+                                        kernel_size=self.kernel_size, stride=self.conv_stride, padding=padding))
                 layers.append(nn.BatchNorm2d(self.channel_numbers[i + 1]))
                 layers.append(activate_function)
                 layers.append(nn.Dropout(self.dropout))
@@ -300,6 +320,14 @@ class CNN(object):
                 layers[5], layers[6], layers[7], layers[8], layers[9],
                 layers[10], layers[11], layers[12], layers[13], layers[14],
                 layers[15], layers[16], layers[17], layers[18], layers[19],
+            )
+        if hidden_layers_number == 5:
+            cnn = nn.Sequential(
+                layers[0], layers[1], layers[2], layers[3], layers[4],
+                layers[5], layers[6], layers[7], layers[8], layers[9],
+                layers[10], layers[11], layers[12], layers[13], layers[14],
+                layers[15], layers[16], layers[17], layers[18], layers[19],
+                layers[20], layers[21], layers[22], layers[23], layers[24],
             )
         return cnn
 
@@ -368,7 +396,6 @@ class CNN(object):
 
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
-                    #print('cuda')
                     self.net = self.net.cuda()
                     train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H)).cuda()
                     train_y = Variable(b_train[:, -1:]).cuda()
@@ -425,16 +452,17 @@ class CNN(object):
         plt.legend()
         plt.show()
 
-    def save_result(self, save_path, is_standard=False, is_PCA=False):
+    def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
         layer_numbers = len(self.channel_numbers)
         hidden_layers = str(self.channel_numbers).replace(',', '')
         try:
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
-        tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers, self.kernel_size
-                           , self.conv_stride, self.pooling_size, self.pool_stride, self.flatten, self.activate_function, self.mse,
-                           self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
+        tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
+                               self.kernel_size, self.conv_stride, self.pooling_size, self.pool_stride, self.flatten,
+                               self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard,
+                               Dimensionality_reduction_method, save_path)
         print('Save results success!')
 
 
@@ -445,7 +473,8 @@ LSTM model
 
 
 class LSTM():
-    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu', epoch=2000, batch_size=128):
+    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu',
+                 epoch=2000, batch_size=128):
         # self.layers = layers
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -582,11 +611,12 @@ class LSTM():
         plt.legend()
         plt.show()
 
-    def save_result(self, save_path, is_standard=False, is_PCA=False):
+    def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
         try:
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
         tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
-                           self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard, is_PCA, save_path)
+                                self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard,
+                                Dimensionality_reduction_method, save_path)
         print('Save results success!')
