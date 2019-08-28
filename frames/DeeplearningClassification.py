@@ -65,43 +65,55 @@ class ANN():
         layers.append(output_layer)
 
         # create network 找不到好办法，只能用 if else 去判断网络层数来搭建，这样的缺陷是：网络不能动态调整
+
         if hidden_layers_number == 1:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[4],
-                nn.Softmax(dim=1)
+                layers[0], layers[1], layers[2],
+                layers[3], nn.Softmax(dim=1)
             )
 
         if hidden_layers_number == 2:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                nn.Softmax(dim=1)
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6]
             )
         if hidden_layers_number == 3:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9],
-                nn.Softmax(dim=1)
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], nn.Softmax(dim=1)
             )
 
         if hidden_layers_number == 4:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9],
-                layers[10], layers[11], layers[12], layers[13],
-                nn.Softmax(dim=1)
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], nn.Softmax(dim=1)
             )
 
         if hidden_layers_number == 5:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9],
-                layers[10], layers[11], layers[12], layers[13],
-                layers[14], layers[15], layers[16], layers[17], layers[18],
-                nn.Softmax(dim=1)
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], layers[13], layers[14],
+                layers[15], nn.Softmax(dim=1)
+            )
+
+        if hidden_layers_number == 6:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], layers[13], layers[14],
+                layers[15], layers[16], layers[17],
+                layers[18], nn.Softmax(dim=1)
             )
 
         return seq_net
@@ -225,8 +237,10 @@ class ANN():
         except:
             lr = self.lr
         tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
-                               self.activate_function, self.acc, self.precision, self.recall, self.f1,
-                               is_standard, Dimensionality_reduction_method, save_path, train_type='classification')
+                               self.activate_function, self.acc, self.precision, self.recall,
+                               self.f1, value5='None', value6='None', value7='None', is_standrad=is_standard,
+                               Dimensionality_reduction_method=Dimensionality_reduction_method,
+                               save_file=save_path, train_type='classification')
         print('Save results success!')
 
 

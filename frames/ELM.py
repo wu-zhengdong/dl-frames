@@ -72,8 +72,9 @@ class ELMRegression:
 
     def score(self, x_test, y_test):
         prediction = self.predict(x_test)
-        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
-        return self.mse, self.rmse, self.mae, self.r2
+        self.mse, self.rmse, self.mae, self.mape, \
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction, features=x_test.shape[-1])
+        return self.mse, self.rmse, self.mae, self.mape, self.r2, self.r2_adjusted, self.rmsle
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 
@@ -88,8 +89,9 @@ class ELMRegression:
         print('Save the picture successfully!')
 
     def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
-        tools.save_elm(self.hidden_nodes, self.mse, self.rmse, self.mae, self.r2, is_standard,
-                       Dimensionality_reduction_method, save_file=save_path, train_type='Regression')
+        tools.save_elm(self.hidden_nodes, self.mse, self.rmse, self.mae, self.mape,
+                       self.r2, self.r2_adjusted, self.rmsle,
+                       is_standard, Dimensionality_reduction_method, save_file=save_path, train_type='Regression')
         print('Save results success!')
 
     def __repr__(self):
@@ -199,8 +201,10 @@ class ELMClassification(object):
         print('Save the picture successfully!')
 
     def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
-        tools.save_elm(self.hidden_nodes, self.acc, self.precision, self.recall, self.f1, is_standard,
-                       Dimensionality_reduction_method, save_file=save_path, train_type='Classification')
+        tools.save_elm(self.hidden_nodes, self.acc, self.precision, self.recall, self.f1, value5='None',
+                       value6='None', value7='None', is_standard=is_standard,
+                       Dimensionality_reduction_method=Dimensionality_reduction_method,
+                       save_file=save_path, train_type='Classification')
         print('Save results success!')
 
     def __repr__(self):

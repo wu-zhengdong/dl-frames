@@ -63,46 +63,52 @@ class ANN():
         # create network 找不到好办法，只能用 if else 去判断网络层数来搭建，这样的缺陷是：网络不能动态调整
         if hidden_layers_number == 1:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[4]
+                layers[0], layers[1], layers[2],
+                layers[3]
             )
 
         if hidden_layers_number == 2:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3],layers[4],
-                layers[5], layers[6]
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6]
             )
         if hidden_layers_number == 3:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3],layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9]
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9]
             )
 
         if hidden_layers_number == 4:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9],
-                layers[10], layers[11], layers[12], layers[13]
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12]
             )
 
         if hidden_layers_number == 5:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9],
-                layers[10], layers[11], layers[12], layers[13],
-                layers[14], layers[15], layers[16], layers[17], layers[18]
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], layers[13], layers[14],
+                layers[15],
             )
 
         if hidden_layers_number == 6:
             seq_net = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6],
-                layers[7], layers[8], layers[9],
-                layers[10], layers[11], layers[12], layers[13],
-                layers[14], layers[15], layers[16], layers[17], layers[18],
-                layers[19], layers[20], layers[21], layers[22], layers[23], layers[24]
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], layers[13], layers[14],
+                layers[15], layers[16], layers[17],
+                layers[18]
             )
 
         return seq_net
@@ -181,11 +187,14 @@ class ANN():
     def score(self, X_test, y_test):
 
         prediction = self.predict(X_test).data.numpy()
-        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
+        self.mse, self.rmse, self.mae, self.mape, \
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction, X_test.shape[-1])
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 
         prediction = self.predict(X_test).data.numpy()
+        prediction[prediction < 0] = 0
+        
         plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
         plt.plot(range(len(y_test)), y_test, 'b--', label="true")
         plt.legend()
@@ -209,8 +218,9 @@ class ANN():
         except:
             lr = self.lr
         tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
-                               self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard,
-                               Dimensionality_reduction_method, save_path, train_type='regression')
+                               self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
+                               self.r2_adjusted, self.rmsle,
+                               is_standard, Dimensionality_reduction_method, save_path, train_type='regression')
         print('Save results success!')
 
 
@@ -432,11 +442,15 @@ class CNN(object):
     def score(self, X_test, y_test):
 
         prediction = self.predict(X_test).data.numpy()
-        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
+        self.mse, self.rmse, self.mae, self.mape, \
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction,
+                                                                    features=X_test.shape[-1])
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 
         prediction = self.predict(X_test).data.numpy()
+        prediction[prediction < 0] = 0
+
         plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
         plt.plot(range(len(y_test)), y_test, 'b--', label="true")
         plt.legend()
@@ -461,8 +475,9 @@ class CNN(object):
             lr = self.lr
         tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
                                self.kernel_size, self.conv_stride, self.pooling_size, self.pool_stride, self.flatten,
-                               self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard,
-                               Dimensionality_reduction_method, save_path)
+                               self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
+                               self.r2_adjusted, self.rmsle,
+                               is_standard, Dimensionality_reduction_method, save_path, train_type='regression')
         print('Save results success!')
 
 
@@ -591,11 +606,14 @@ class LSTM():
     def score(self, X_test, y_test):
 
         prediction = self.predict(X_test).data.numpy()
-        self.mse, self.rmse, self.mae, self.r2 = tools.reg_calculate(y_test, prediction)
+        self.mse, self.rmse, self.mae, self.mape, \
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction, X_test.shape[-1])
 
     def result_plot(self, X_test, y_test, save_file, is_show=False):
 
         prediction = self.predict(X_test).data.numpy()
+        prediction[prediction < 0] = 0
+
         plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
         plt.plot(range(len(y_test)), y_test, 'b--', label="true")
         plt.legend()
@@ -617,6 +635,7 @@ class LSTM():
         except:
             lr = self.lr
         tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
-                                self.activate_function, self.mse, self.rmse, self.mae, self.r2, is_standard,
-                                Dimensionality_reduction_method, save_path)
+                                self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
+                                self.r2_adjusted, self.rmsle,
+                                is_standard, Dimensionality_reduction_method, save_path, train_type='regression')
         print('Save results success!')

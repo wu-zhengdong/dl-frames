@@ -9,18 +9,35 @@ This is a toolkit that provides calculations, save results, create data set, plo
 '''
 
 
-def reg_calculate(true, prediction):
+def reg_calculate(true, prediction, features=None):
     '''
         To calculate the result of regression,
         including mse, rmse, mae, r2, four criterions.
     '''
+    prediction[prediction < 0] = 0
+
     mse = metrics.mean_squared_error(true, prediction)
     rmse = np.sqrt(mse)
-    mae = metrics.mean_absolute_error(true, prediction)
-    r2 = metrics.r2_score(true, prediction)
 
-    print("mse: {}, rmse: {}, mae: {}, r2: {}".format(mse, rmse, mae, r2))
-    return mse, rmse, mae, r2
+    mae = metrics.mean_absolute_error(true, prediction)
+    mape = np.mean(np.abs((true - prediction) / true)) * 100
+
+    r2 = metrics.r2_score(true, prediction)
+    rmsle = np.sqrt(metrics.mean_squared_log_error(true, prediction))
+
+    try:
+        n = len(true)
+        p = features
+        r2_adjusted = 1-((1-metrics.r2_score(true, prediction))*(n-1))/(n-p-1)
+    except:
+        print("mse: {}, rmse: {}, mae: {}, mape: {}, r2: {}, rmsle: {}".format(mse, rmse, mae, mape, r2, rmsle))
+        print('if you wanna get the value of r2_adjusted, you can define the number of features, '
+              'which is the third parameter.')
+        return mse, rmse, mae, mape, r2, rmsle
+
+    print("mse: {}, rmse: {}, mae: {}, mape: {}, r2: {}, r2_adjusted: {}, rmsle: {}".format(mse, rmse, mae, mape,
+                                                                                            r2, r2_adjusted, rmsle))
+    return mse, rmse, mae, mape, r2, r2_adjusted, rmsle
 
 
 def clf_calculate(true, prediction):
@@ -89,22 +106,24 @@ def cross_entropy_erorr(y, t):
     return -torch.sum(t * torch.log(y + delta))
 
 
-def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function, value1, value2,
-                     value3, value4, is_standrad, Dimensionality_reduction_method, save_file, train_type):
+def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function,
+                     value1, value2, value3, value4, value5, value6, value7,
+                     is_standrad, Dimensionality_reduction_method, save_file, train_type):
 
     # save the regression results
     if train_type == 'regression':
         if not os.path.exists(save_file):
             content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' \
                       + 'hidden_neurons' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' \
-                      + 'r2' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
+                      + 'mape' + ',' + 'r2' + ',' + 'r2_adjusted' + ',' + 'rmsle' + ',' + 'is_standard' + ',' \
+                      + 'Dimensionality_reduction_method'
             with open(save_file, 'a') as f:
                 f.write(content)
                 f.write('\n')
         content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) \
                   + ',' + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) \
-                  + ',' + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' \
-                  + str(Dimensionality_reduction_method)
+                  + ',' + str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) \
+                  + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
     # save the classification results
     if train_type == 'classification':
         if not os.path.exists(save_file):
@@ -125,59 +144,63 @@ def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layer
 
 
 def save_cnn_results(epoch, batch_size, lr, dropout, conv_layers, channle_numbers, conv_kernel_size, conv_stride,
-                     pooling_size, pooling_stride, flatten, activate_function, mse, rmse, mae, r2, is_standrad,
-                     Dimensionality_reduction_method, save_file):
+                     pooling_size, pooling_stride, flatten, activate_function, value1, value2, value3, value4, value5,
+                     value6, value7, is_standrad, Dimensionality_reduction_method, save_file, train_type):
 
-    save_file = save_file
     if not os.path.exists(save_file):
         content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'conv_layers' + ',' + \
                   'channle_numbers' + ',' + 'conv_kernel_size' + ',' + 'conv_stride' + ',' + 'pooling_kernel_size' + \
-                  ',' + 'pooling_stride' + ',' + 'flatten' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + \
-                  ',' + 'mae' + ',' + 'r2' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
+                  ',' + 'pooling_stride' + ',' + 'flatten' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' \
+                  + ',' + 'mae' + ',' + 'mape' + ',' + 'r2' + ',' + 'r2_adjusted' + ',' + 'rmsle' + ',' \
+                  + 'is_standard' + ',' + 'Dimensionality_reduction_method'
         with open(save_file, 'a') as f:
             f.write(content)
             f.write('\n')
     content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(conv_layers) + ',' + \
               str(channle_numbers) + ',' + str(conv_kernel_size) + ',' + str(conv_stride) + ',' + str(pooling_size) + \
-              ',' + str(pooling_stride) + ',' + str(flatten) + ',' + str(activate_function) + ',' + str(mse) + ',' + \
-              str(rmse) + ',' + str(mae) + ',' + str(r2) + ',' + str(is_standrad) + ',' + \
-              str(Dimensionality_reduction_method)
+              ',' + str(pooling_stride) + ',' + str(flatten) + ',' + str(activate_function) + ',' + str(value1) + ',' \
+              + str(value2) + ',' + str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' \
+              + str(value7) + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
 
 
-def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function, mse, rmse, mae,
-                      r2, is_standrad, Dimensionality_reduction_method, save_file):
+def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function, value1, value2,
+                      value3, value4, value5, value6, value7, is_standrad, Dimensionality_reduction_method, save_file,
+                      train_type):
 
-    save_file = save_file
     if not os.path.exists(save_file):
         content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_size' + ',' \
-                  + 'hidden_size' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' + \
-                  'r2' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
+                  + 'hidden_size' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' \
+                  + 'mape' + ',' + 'r2' + ',' + 'r2_adjusted' + ',' + 'rmsle' + ',' \
+                  + 'is_standard' + ',' + 'Dimensionality_reduction_method'
         with open(save_file, 'a') as f:
             f.write(content)
             f.write('\n')
     content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(num_layers) + ','  \
-              + str(hidden_size) + ',' + str(activate_function) + ',' + str(mse) + ',' + str(rmse) + ',' + str(mae) +\
-              ',' + str(r2) + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
+              + str(hidden_size) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + ',' +\
+              str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) + ',' \
+              + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
     with open(save_file, 'a') as f:
         f.write(content)
         f.write('\n')
 
 
-def save_elm(hidden_nodes, value1, value2, value3, value4, is_standard, Dimensionality_reduction_method, save_file, train_type):
+def save_elm(hidden_nodes, value1, value2, value3, value4, value5, value6, value7, is_standard,
+             Dimensionality_reduction_method, save_file, train_type):
 
     if train_type == 'Regression':
         if not os.path.exists(save_file):
-            content = 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'R2' + ',' + 'is_standrad' + ',' \
-                      + 'Dimensionality_reduction_method'
+            content = 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'MAPE' + ',' + 'R2' + ',' + \
+                      'r2_adjusted' + ',' + 'RMSLE' + ',' + 'is_standrad' + ',' + 'Dimensionality_reduction_method'
             with open(save_file, 'a') as f:
                 f.write(content)
                 f.write('\n')
 
         content = str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' + str(value3) + ',' + \
-                  str(value4) + ',' + str(is_standard) + ',' + str(Dimensionality_reduction_method)
+                  str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) + ',' \
+                  + str(is_standard) + ',' + str(Dimensionality_reduction_method)
     if train_type == 'Classification':
         if not os.path.exists(save_file):
             content = 'hidden_nodes' + ',' + 'ACC' + ',' + 'Precision' + ',' + 'Recall' + ',' + 'F1' + ',' + \
