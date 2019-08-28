@@ -16,6 +16,9 @@
 
 ### 2019/08/09: add ElmClassification.py （极限学习机分类模型）
 *修改了 is_PCA 的保存参数，改为自由填充降维方法（str）*
+
+### 2019/08/29: 添加了三个回归预测的指标，mape，r2 rejected, rmsle。
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子
