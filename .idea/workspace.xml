@@ -2,28 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ac8c495-c9b4-450c-ac15-b6ed0d6b8686" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Regression)-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/CNN Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/CNN Example (Regression)-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/LSTM Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/LSTM Example (Regression)-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ANN Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ANN Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CNN Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/CNN Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ELM Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ELM Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/ElmRegression.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/ElmRegression.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/ann_result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/ann_result.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/cnn_result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/cnn_result.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/lstm_result.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/lstm_result.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_png/elm_regression.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/save_png/elm_regression.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_png/elm_regression2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/save_png/elm_regression2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/ann_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/ann_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/cnn_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/cnn_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/lstm_picture.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/lstm_picture.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSTM Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/LSTM Example (Regression).ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/DeeplearningClassification.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningClassification.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/DeeplearningRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningRegression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/ELM.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/ELM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/tools.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="196" column="8" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
+            <state relative-caret-position="207">
+              <caret line="132" column="12" lean-forward="true" selection-start-line="132" selection-start-column="12" selection-end-line="132" selection-end-column="12" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -48,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/tools.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1526">
-              <caret line="16" column="34" lean-forward="true" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+            <state relative-caret-position="180">
+              <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -60,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/ELM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="83" column="20" lean-forward="true" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+            <state relative-caret-position="1185">
+              <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -69,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="224" selection-start-line="224" selection-end-line="224" />
+            <state relative-caret-position="30">
+              <caret line="564" column="38" lean-forward="true" selection-start-line="564" selection-start-column="38" selection-end-line="564" selection-end-column="38" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -126,10 +107,10 @@
         <option value="$PROJECT_DIR$/frames/Based_model.py" />
         <option value="$PROJECT_DIR$/frames/test.py" />
         <option value="$PROJECT_DIR$/frames/GridSearch.py" />
-        <option value="$PROJECT_DIR$/frames/DeeplearningClassification.py" />
         <option value="$PROJECT_DIR$/frames/ELM.py" />
         <option value="$PROJECT_DIR$/frames/tools.py" />
         <option value="$PROJECT_DIR$/frames/DeeplearningRegression.py" />
+        <option value="$PROJECT_DIR$/frames/DeeplearningClassification.py" />
       </list>
     </option>
   </component>
@@ -312,15 +293,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="967" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="975" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24894515" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24894515" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.264" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.264" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -410,6 +391,36 @@
     <entry file="file://$PROJECT_DIR$/ANN Example (Classification).ipynb">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="132" column="12" lean-forward="true" selection-start-line="132" selection-start-column="12" selection-end-line="132" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/ELM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/frames/Based_model.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -419,38 +430,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="224" selection-start-line="224" selection-end-line="224" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frames/ELM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="83" column="20" lean-forward="true" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frames/tools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1526">
-          <caret line="16" column="34" lean-forward="true" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="196" column="8" selection-start-line="196" selection-start-column="8" selection-end-line="196" selection-end-column="8" />
+        <state relative-caret-position="30">
+          <caret line="564" column="38" lean-forward="true" selection-start-line="564" selection-start-column="38" selection-end-line="564" selection-end-column="38" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>

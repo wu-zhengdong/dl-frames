@@ -19,6 +19,8 @@
 
 ### 2019/08/29: 添加了三个回归预测的指标，mape，r2 rejected, rmsle。
 
+### 2019/08/30: 梯度衰减错误已修改
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子

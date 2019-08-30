@@ -140,9 +140,9 @@ class ANN():
 
             # 是否使用 梯度衰减
             try:
-                if (self.epoch + 1) % (self.epoch // 3) == 0:
+                if (e + 1) % (self.epoch // 3) == 0:
                     optim.param_groups[0]["lr"] = self.lr[1]
-                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                if (e + 1) % (self.epoch // 3 * 2) == 0:
                     optim.param_groups[0]["lr"] = self.lr[2]
             except:
                 pass
@@ -397,9 +397,9 @@ class CNN(object):
 
             # 是否使用 梯度衰减
             try:
-                if (self.epoch + 1) % (self.epoch // 3) == 0:
+                if (e + 1) % (self.epoch // 3) == 0:
                     optim.param_groups[0]["lr"] = self.lr[1]
-                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                if (e + 1) % (self.epoch // 3 * 2) == 0:
                     optim.param_groups[0]["lr"] = self.lr[2]
             except:
                 pass
@@ -559,9 +559,9 @@ class LSTM():
 
             # 是否使用 梯度衰减
             try:
-                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                if (e + 1) % (self.epoch // 3 * 2) == 0:
                     optim.param_groups[0]["lr"] = self.lr[1]
-                if (self.epoch + 1) % (self.epoch // 3 * 2) == 0:
+                if (e + 1) % (self.epoch // 3 * 2) == 0:
                     optim.param_groups[0]["lr"] = self.lr[2]
             except:
                 pass
