@@ -23,6 +23,8 @@
 
 ### 2019/09/05: 将predict函数的输出转变为矩阵
 
+### 2019/09/09: 对模型进行了大改（regression 模型）
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子
