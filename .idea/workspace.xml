@@ -2,31 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ac8c495-c9b4-450c-ac15-b6ed0d6b8686" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Regression)-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/CNN Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/CNN Example (Regression)-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/LSTM Example (Regression)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/LSTM Example (Regression)-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ANN Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ANN Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CNN Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/CNN Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Classification/ann_result.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Classification/elm_Classification.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Classification/save_png/elm_cfm2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Classification/save_png/elm_clf.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Classification/save_pngs/ann_picture.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/ElmRegression.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/ann_result.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/cnn_result.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/lstm_result.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/ann_picture.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/cnn_picture.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/elm_regression.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/elm_regression2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_save_resultes/Regression/save_pngs/lstm_picture.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/LSTM Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/LSTM Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/DeeplearningClassification.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningClassification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/DeeplearningRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningRegression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/tools.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="934" column="15" lean-forward="true" selection-start-line="934" selection-start-column="15" selection-end-line="934" selection-end-column="15" />
+            <state relative-caret-position="2138">
+              <caret line="845" selection-start-line="845" selection-end-line="845" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -481,8 +458,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="934" column="15" lean-forward="true" selection-start-line="934" selection-start-column="15" selection-end-line="934" selection-end-column="15" />
+        <state relative-caret-position="2138">
+          <caret line="845" selection-start-line="845" selection-end-line="845" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
