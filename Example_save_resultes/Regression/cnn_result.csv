@@ -1,2 +1,0 @@
-epoch,batch_size,lr,dropout,conv_layers,channle_numbers,conv_kernel_size,conv_stride,pooling_kernel_size,pooling_stride,flatten,activate function,mse,rmse,mae,mape,r2,r2_adjusted,rmsle,is_standard,Dimensionality_reduction_method
-300,256,[0.001 1e-05 1e-07],0,2,[64 32],3,1,2,2,1024,relu,26.474701109337378,5.145357238262216,3.7827537087833183,16.6918576896551,0.7469746973480076,-24.555555567851233,0.1926096055729668,False,None

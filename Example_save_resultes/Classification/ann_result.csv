@@ -1,2 +1,0 @@
-epoch,batch_size,lr,dropout,hidden_layer_number,hidden_neurons,activate function,acc,precision,recall,f1,is_standard,Dimensionality_reduction_method
-1000,256,[0.001 1e-05 1e-07],0,2,[128 64],relu,0.9694444444444444,0.9695976690924508,0.9699625171576389,0.9691962915914674,False,None

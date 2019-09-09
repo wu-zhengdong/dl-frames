@@ -190,11 +190,11 @@ class ANN():
             prediction = self.net(test_x)
 
         prediction = torch.argmax(prediction, dim=1)
-        return prediction
+        return prediction.cpu().data.numpy()
 
     def score(self, X_test, y_test):
 
-        prediction = self.predict(X_test).data.numpy()
+        prediction = self.predict(X_test)
         self.acc, self.precision, self.recall, self.f1 = tools.clf_calculate(y_test, prediction)
 
     def confusion_matrix_result(self, X_test, y_test, save_file, is_show=False, delete_zero=False):
@@ -217,11 +217,15 @@ class ANN():
         plt.yticks(fontsize=15)
         sns.set(font_scale=1.5)
         pic_save = pic.get_figure()
-        pic_save.savefig(save_file)
+        try:
+            pic_save.savefig(save_file)
+            print('Save the picture successfully!')
+        except:
+            print('You have not define the path of saving!')
         if is_show:
             plt.show()
         plt.close()
-        print('Save the picture successfully!')
+
 
     def loss_plot(self):
 
@@ -331,13 +335,15 @@ class CNN(object):
 
         if hidden_layers_number == 1:
             cnn = nn.Sequential(
-                layers[0], layers[1], layers[2], layers[3], layers[4]
+                layers[0], layers[1], layers[2], layers[3], layers[4],
+                nn.Softmax(dim=1)
             )
 
         if hidden_layers_number == 2:
             cnn = nn.Sequential(
                 layers[0], layers[1], layers[2], layers[3], layers[4],
-                layers[5], layers[6], layers[7], layers[8], layers[9]
+                layers[5], layers[6], layers[7], layers[8], layers[9],
+                nn.Softmax(dim=1)
             )
 
         if hidden_layers_number == 3:
@@ -345,6 +351,7 @@ class CNN(object):
                 layers[0], layers[1], layers[2], layers[3], layers[4],
                 layers[5], layers[6], layers[7], layers[8], layers[9],
                 layers[10], layers[11], layers[12], layers[13], layers[14],
+                nn.Softmax(dim=1)
             )
 
         if hidden_layers_number == 4:
@@ -353,6 +360,7 @@ class CNN(object):
                 layers[5], layers[6], layers[7], layers[8], layers[9],
                 layers[10], layers[11], layers[12], layers[13], layers[14],
                 layers[15], layers[16], layers[17], layers[18], layers[19],
+                nn.Softmax(dim=1)
             )
         return cnn
 
@@ -466,7 +474,10 @@ class CNN(object):
         plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
         plt.plot(range(len(y_test)), y_test, 'b--', label="true")
         plt.legend()
-        plt.savefig(save_file)
+        try:
+            plt.savefig(save_file)
+        except:
+            print('You have not define the path of saving!')
         if is_show:
             plt.show()
         plt.close()
@@ -623,7 +634,10 @@ class LSTM():
         plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
         plt.plot(range(len(y_test)), y_test, 'b--', label="true")
         plt.legend()
-        plt.savefig(save_file)
+        try:
+            plt.savefig(save_file)
+        except:
+            print('You have not define the path of saving!')
         if is_show:
             plt.show()
         plt.close()

@@ -9,13 +9,22 @@ from . import tools
 from .Based_model import conv_bn_net
 from .Based_model import lstm_network
 
+import os
+import time
+
 '''
 The frames of deep learning technology with regression problems, including ANN, CNN, LSTM network.
 '''
 
 
 class ANN():
-    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', epoch=2000, batch_size=128):
+    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', epoch=2000,
+                 batch_size=128, is_standard=False, Dimensionality_reduction_method='None',
+                 save_path='ANN_Result'):
+
+        self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
 
         self.hidden_layers = hidden_layers
         self.lr = learning_rate
@@ -24,7 +33,13 @@ class ANN():
         self.epoch = epoch
         self.batch_size = batch_size
 
+        # 存储数据预处理的操作
+        self.is_standard = is_standard
+        self.Dimensionality_reduction_method = Dimensionality_reduction_method
+
         self.TrainLosses = []
+        self.TestLosses = []
+        self.t = 0
 
     def model(self, input_size, output_size):
         ''' create network '''
@@ -119,16 +134,40 @@ class ANN():
         batch_train_set = DataLoader(datasets, batch_size=self.batch_size, shuffle=True)
         return batch_train_set
 
-    def fit(self, X_train, y_train):
+    def fit(self, X_train, y_train, X_test, y_test):
         ''' training the network '''
         # if y is a scalar
         if y_train.ndim == 1:
             y_train = y_train.reshape(-1, 1)
 
+        if y_test.ndim == 1:
+            y_test = y_test.reshape(-1, 1)
+
+
+        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
+
         input_size, output_size = X_train.shape[1], y_train.shape[1]
         batch_train_set = self.create_batch_size(X_train, y_train)
 
+        save_result = os.path.join(self.save_path, 'Results.csv')
+        try:
+            count = len(open(save_result, 'rU').readlines())
+        except:
+            count = 1
+
+        net_weight = os.path.join(self.save_path, 'Weight')
+        if not os.path.exists(net_weight):
+            os.makedirs(net_weight)
+
+        net_path = os.path.join(net_weight, str(count) + '.pkl')
+        net_para_path = os.path.join(net_weight, str(count) + '_parameters.pkl')
+
         self.net = self.model(input_size, output_size)
+        try:
+            self.net.load_state_dict(torch.load(net_para_path))
+        except:
+            pass
+
         self.net.train()
         try:
             optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
@@ -136,6 +175,7 @@ class ANN():
             optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
         criterion = torch.nn.MSELoss()
 
+        start = time.time() # 计算时间
         for e in range(self.epoch):
 
             # 是否使用 梯度衰减
@@ -169,62 +209,136 @@ class ANN():
 
             if (e + 1) % 100 == 0:
                 print('Training... epoch: {}, loss: {}'.format((e+1), loss.cpu().data.numpy()))
+                torch.save(self.net, net_path)
+                torch.save(self.net.state_dict(), net_para_path)
 
-        print('Training completed!')
+                self.net.eval()
+                if torch.cuda.is_available():
+                    test_x = Variable(torch.FloatTensor(X_test)).cuda()
+                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
+                else:
+                    test_x = Variable(torch.FloatTensor(X_test))
+                    test_y = Variable(torch.FloatTensor(y_test))
+
+                test_prediction = self.net(test_x)
+                test_loss = criterion(test_prediction, test_y)
+                self.TestLosses.append(test_loss.cpu().data.numpy())
+
+                self.test_prediction = test_prediction.cpu().data.numpy()
+                self.test_prediction[self.test_prediction < 0] = 0
+
+                print('\033[1;35m Testing... epoch: {}, loss: {} \033[0m!'.format((e + 1), test_loss.cpu().data.numpy()))
+
+        end = time.time()
+        self.t = end - start
+        print('Training completed!!! Time consuming: {}'.format(str(self.t)))
 
     def predict(self, X_test):
 
         self.net.eval()
         if torch.cuda.is_available():
             test_x = Variable(torch.FloatTensor(X_test)).cuda()
-            prediction = self.net(test_x).cpu()
         else:
             test_x = Variable(torch.FloatTensor(X_test))
-            prediction = self.net(test_x)
+
+        prediction = self.net(test_x)
+
+        prediction = prediction.cpu().data.numpy()
+        prediction[prediction < 0] = 0
 
         return prediction
 
-    def score(self, X_test, y_test):
+    def score(self):
 
-        prediction = self.predict(X_test).data.numpy()
+        assert self.test_prediction is not None, '使用 score 前需要 fit'
+
         self.mse, self.rmse, self.mae, self.mape, \
-        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction, X_test.shape[-1])
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(self.y_test, self.test_prediction,
+                                                                    self.X_test.shape[-1])
 
-    def result_plot(self, X_test, y_test, save_file, is_show=False):
-
-        prediction = self.predict(X_test).data.numpy()
-        prediction[prediction < 0] = 0
+    def __result_plot(self, save_file):
         
-        plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
-        plt.plot(range(len(y_test)), y_test, 'b--', label="true")
+        plt.plot(range(len(self.test_prediction)), self.test_prediction, 'r--', label='prediction')
+        plt.plot(range(len(self.y_test)), self.y_test, 'b--', label="true")
         plt.legend()
-        plt.savefig(save_file)
-        if is_show:
-            plt.show()
+        try:
+            plt.savefig(save_file)
+            print('Save the picture successfully!')
+        except:
+            print('You have not define the path of saving!')
         plt.close()
-        print('Save the picture successfully!')
 
-    def loss_plot(self):
+    def __loss_plot(self, train_save, test_save):
 
-        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="loss")
+        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="train_loss")
         plt.legend()
-        plt.show()
+        try:
+            plt.savefig(train_save)
+            print('Save the picture of training loss successfully!')
+        except:
+            print('You have not define the path of saving!')
+        plt.close()
 
-    def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
+        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'r', label="test_loss")
+        plt.legend()
+        try:
+            plt.savefig(test_save)
+            print('Save the picture of testing loss  successfully!')
+        except:
+            print('You have not define the path of saving!')
+
+        plt.close()
+
+    def __save_result(self, save_path):
+
+        assert self.mse is not None, '需要先调用 score 函数'
+
         layer_numbers = len(self.hidden_layers)
         hidden_layers = str(self.hidden_layers).replace(',', '')
         try:
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
-        tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
-                               self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
-                               self.r2_adjusted, self.rmsle,
-                               is_standard, Dimensionality_reduction_method, save_path, train_type='regression')
+        count = tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout,
+                                       layer_numbers, hidden_layers, self.activate_function, self.mse, self.rmse,
+                                       self.mae, self.mape, self.r2, self.r2_adjusted, self.rmsle, self.is_standard,
+                                       self.Dimensionality_reduction_method, t=self.t,
+                                       save_result=save_path, train_type='regression')
         print('Save results success!')
+        return count
 
+    def save(self):
+        '''
+        保存 pic， prediction，
+        :return:
+        '''
 
+        # 保存 result，需要获得一个与行对应的数（count）
+        result_path = os.path.join(self.save_path, 'Results.csv')
+        count = self.__save_result(result_path)
 
+        # 保存 prediction
+        pred_path = os.path.join(self.save_path, 'Prediction')
+        if not os.path.exists(pred_path):
+            os.makedirs(pred_path)
+        save_prediction = os.path.join(pred_path, str(count) + '.csv')
+        np.savetxt(save_prediction, self.test_prediction, delimiter=',')
+        print('Save the value of prediction successfully!!')
+
+        # 保存图片
+        pic_path = os.path.join(self.save_path, 'Pictures')
+        if not os.path.exists(pic_path):
+            os.makedirs(pic_path)
+        pic_file = os.path.join(pic_path, str(count) + '.png')
+        self.__result_plot(save_file=pic_file)
+
+        # 保存 loss
+        loss_path = os.path.join(self.save_path, 'Loss')
+        if not os.path.exists(loss_path):
+            os.makedirs(loss_path)
+        train_loss = os.path.join(loss_path, 'Train' + str(count) + '.png')
+        test_loss = os.path.join(loss_path, 'Test' + str(count) + '.png')
+        self.__loss_plot(train_save=train_loss, test_save=test_loss)
 
 
 '''
@@ -234,7 +348,13 @@ CNN model
 
 class CNN(object):
     def __init__(self, learning_rate, conv_stride = 1, kernel_size=3, pooling_size=2, pool_stride = 2,
-                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0, epoch=2000, batch_size=128):
+                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0,
+                 epoch=2000, batch_size=128, is_standard=False, Dimensionality_reduction_method='None',
+                 save_path='CNN_Results'):
+
+        self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
 
         self.conv_stride = conv_stride
         self.kernel_size = kernel_size
@@ -249,7 +369,11 @@ class CNN(object):
         self.epoch = epoch
         self.batch_size = batch_size
 
+        self.is_standard = is_standard
+        self.Dimensionality_reduction_method = Dimensionality_reduction_method
+
         self.TrainLosses = []
+        self.TestLosses = []
 
     def conv_padding_same(self, W_in):
         ''' 相当于 tensorflow 里面的 paddling = same 操作 '''
@@ -365,11 +489,16 @@ class CNN(object):
         batch_train_set = DataLoader(datasets, batch_size=self.batch_size, shuffle=True)
         return batch_train_set
 
-    def fit(self, X_train, y_train):
+    def fit(self, X_train, y_train, X_test, y_test):
         ''' 训练模型 '''
         # if y is a scalar
         if y_train.ndim == 1:
             y_train = y_train.reshape(-1, 1)
+
+        if y_test.ndim == 1:
+            y_test = y_test.reshape(-1, 1)
+
+        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
 
         # x_train = [-1, channle, W, H]
         self.W, self.H = int(np.sqrt((X_train.shape[1]))), int(np.sqrt((X_train.shape[1])))
@@ -384,7 +513,25 @@ class CNN(object):
         # 搭建卷积模型
         conv = self.conv_model(self.W, input_channles)
         flatten = self.Linear_model(self.channel_numbers[-1] * self.conv_out**2, output_size)
+
+        save_result = os.path.join(self.save_path, 'Results.csv')
+        try:
+            count = len(open(save_result, 'rU').readlines())
+        except:
+            count = 1
+
+        net_weight = os.path.join(self.save_path, 'Weight')
+        if not os.path.exists(net_weight):
+            os.makedirs(net_weight)
+
+        net_path = os.path.join(net_weight, str(count) + '.pkl')
+        net_para_path = os.path.join(net_weight, str(count) + '_parameters.pkl')
+
         self.net = conv_bn_net(conv, flatten)
+        try:
+            self.net.load_state_dict(torch.load(net_para_path))
+        except:
+            pass
 
         self.net.train()
         try:
@@ -393,6 +540,7 @@ class CNN(object):
             optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
         criterion = torch.nn.MSELoss()
 
+        start = time.time()
         for e in range(self.epoch):
 
             # 是否使用 梯度衰减
@@ -424,8 +572,30 @@ class CNN(object):
             self.TrainLosses.append(loss.cpu().data.numpy())
 
             if (e + 1) % 100 == 0:
-                print('Training... epoch: {}, loss: {}'.format((e+1), loss.cpu().data.numpy()))
-        print('Training completed!')
+                print('Training... epoch: {}, loss: {}'.format((e + 1), loss.cpu().data.numpy()))
+                torch.save(self.net, net_path)
+                torch.save(self.net.state_dict(), net_para_path)
+
+                self.net.eval()
+                if torch.cuda.is_available():
+                    test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H)).cuda()
+                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
+                else:
+                    test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H))
+                    test_y = Variable(torch.FloatTensor(y_test))
+
+                test_prediction = self.net(test_x)
+                test_loss = criterion(test_prediction, test_y)
+                self.TestLosses.append(test_loss.cpu().data.numpy())
+
+                self.test_prediction = test_prediction.cpu().data.numpy()
+                self.test_prediction[self.test_prediction < 0] = 0
+
+                print(
+                    '\033[1;35m Testing... epoch: {}, loss: {} \033[0m!'.format((e + 1), test_loss.cpu().data.numpy()))
+        end = time.time()
+        self.t = end - start
+        print('Training completed!!! Time consuming: {}'.format(str(self.t)))
 
     def predict(self, X_test):
 
@@ -437,48 +607,101 @@ class CNN(object):
             test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H))
             prediction = self.net(test_x)
 
+        prediction = prediction.cpu().data.numpy()
+        prediction[prediction < 0] = 0
         return prediction
 
-    def score(self, X_test, y_test):
+    def score(self):
 
-        prediction = self.predict(X_test).data.numpy()
+        assert self.test_prediction is not None, '使用 score 前需要 fit'
+
         self.mse, self.rmse, self.mae, self.mape, \
-        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction,
-                                                                    features=X_test.shape[-1])
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(self.y_test, self.test_prediction,
+                                                                    features=self.X_test.shape[-1])
 
-    def result_plot(self, X_test, y_test, save_file, is_show=False):
+    def __result_plot(self, save_file):
 
-        prediction = self.predict(X_test).data.numpy()
-        prediction[prediction < 0] = 0
-
-        plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
-        plt.plot(range(len(y_test)), y_test, 'b--', label="true")
+        plt.plot(range(len(self.test_prediction)), self.test_prediction, 'r--', label='prediction')
+        plt.plot(range(len(self.y_test)), self.y_test, 'b--', label="true")
         plt.legend()
-        plt.savefig(save_file)
-        if is_show:
-            plt.show()
+        try:
+            plt.savefig(save_file)
+            print('Save the picture successfully!')
+        except:
+            print('You have not define the path of saving!')
         plt.close()
-        print('Save the picture successfully!')
 
-    def loss_plot(self):
+    def __loss_plot(self, train_save, test_save):
 
-        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="loss")
+        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="train_loss")
         plt.legend()
-        plt.show()
+        try:
+            plt.savefig(train_save)
+            print('Save the picture of training loss successfully!')
+        except:
+            print('You have not define the path of saving!')
+        plt.close()
 
-    def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
+        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'r', label="test_loss")
+        plt.legend()
+        try:
+            plt.savefig(test_save)
+            print('Save the picture of testing loss  successfully!')
+        except:
+            print('You have not define the path of saving!')
+
+        plt.close()
+
+    def __save_result(self, save_path):
+
+        assert self.mse is not None, '需要先调用 score 函数'
+
         layer_numbers = len(self.channel_numbers)
         hidden_layers = str(self.channel_numbers).replace(',', '')
         try:
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
-        tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
+        count = tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
                                self.kernel_size, self.conv_stride, self.pooling_size, self.pool_stride, self.flatten,
                                self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
-                               self.r2_adjusted, self.rmsle,
-                               is_standard, Dimensionality_reduction_method, save_path, train_type='regression')
+                               self.r2_adjusted, self.rmsle, self.is_standard, self.t,
+                               self.Dimensionality_reduction_method, save_path, train_type='regression')
         print('Save results success!')
+        return count
+
+    def save(self):
+        '''
+        保存 pic， prediction，
+        :return:
+        '''
+
+        # 保存 result，需要获得一个与行对应的数（count）
+        result_path = os.path.join(self.save_path, 'Results.csv')
+        count = self.__save_result(result_path)
+
+        # 保存 prediction
+        pred_path = os.path.join(self.save_path, 'Prediction')
+        if not os.path.exists(pred_path):
+            os.makedirs(pred_path)
+        save_prediction = os.path.join(pred_path, str(count) + '.csv')
+        np.savetxt(save_prediction, self.test_prediction, delimiter=',')
+        print('Save the value of prediction successfully!!')
+
+        # 保存图片
+        pic_path = os.path.join(self.save_path, 'Pictures')
+        if not os.path.exists(pic_path):
+            os.makedirs(pic_path)
+        pic_file = os.path.join(pic_path, str(count) + '.png')
+        self.__result_plot(save_file=pic_file)
+
+        # 保存 loss
+        loss_path = os.path.join(self.save_path, 'Loss')
+        if not os.path.exists(loss_path):
+            os.makedirs(loss_path)
+        train_loss = os.path.join(loss_path, 'Train' + str(count) + '.png')
+        test_loss = os.path.join(loss_path, 'Test' + str(count) + '.png')
+        self.__loss_plot(train_save=train_loss, test_save=test_loss)
 
 
 
@@ -489,7 +712,13 @@ LSTM model
 
 class LSTM():
     def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu',
-                 epoch=2000, batch_size=128):
+                 epoch=2000, batch_size=128, save_path='LSTM_Results',
+                 is_standard=False, Dimensionality_reduction_method='None'):
+
+        self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
+
         # self.layers = layers
         self.num_layers = num_layers
         self.hidden_size = hidden_size
@@ -499,7 +728,11 @@ class LSTM():
         self.epoch = epoch
         self.batch_size = batch_size
 
+        self.is_standard = is_standard
+        self.Dimensionality_reduction_method = Dimensionality_reduction_method
+
         self.TrainLosses = []
+        self.TestLosses = []
 
     def create_batch_size(self, X_train, y_train):
         p = np.random.permutation(X_train.shape[0])
@@ -523,7 +756,7 @@ class LSTM():
 
         return b_datas, b_labels
 
-    def fit(self, X_train, y_train):
+    def fit(self, X_train, y_train, X_test, y_test):
         '''
         :param X_train:
         :param y_train:
@@ -532,6 +765,12 @@ class LSTM():
         # if y is a scalar
         if y_train.ndim == 1:
             y_train = y_train.reshape(-1, 1)
+
+        if y_test.ndim == 1:
+            y_test = y_test.reshape(-1, 1)
+
+
+        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
 
         input_size, output_size = X_train.shape[-1], y_train.shape[-1]
 
@@ -545,8 +784,26 @@ class LSTM():
             activate_function = nn.Sigmoid(True)
         if self.activate_function == 'tanh':
             activate_function = nn.Tanh(True)
+
+        save_result = os.path.join(self.save_path, 'Results.csv')
+        try:
+            count = len(open(save_result, 'rU').readlines())
+        except:
+            count = 1
+
+        net_weight = os.path.join(self.save_path, 'Weight')
+        if not os.path.exists(net_weight):
+            os.makedirs(net_weight)
+
+        net_path = os.path.join(net_weight, str(count) + '.pkl')
+        net_para_path = os.path.join(net_weight, str(count) + '_parameters.pkl')
+
         self.net = lstm_network(input_size=input_size, hidden_size=self.hidden_size, num_layers=self.num_layers,
                                 output_size=output_size, dropout=self.dropout, activate_function=activate_function)
+        try:
+            self.net.load_state_dict(torch.load(net_para_path))
+        except:
+            pass
 
         self.net.train()
         try:
@@ -555,6 +812,7 @@ class LSTM():
             optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
         criterion = torch.nn.MSELoss()
 
+        start = time.time()
         for e in range(self.epoch):
 
             # 是否使用 梯度衰减
@@ -588,8 +846,30 @@ class LSTM():
 
             if (e + 1) % 100 == 0:
                 print('Training... epoch: {}, loss: {}'.format((e+1), loss.cpu().data.numpy()))
+                torch.save(self.net, net_path)
+                torch.save(self.net.state_dict(), net_para_path)
 
-        print('Training completed!')
+                self.net.eval()
+                if torch.cuda.is_available():
+                    test_x = Variable(torch.FloatTensor(X_test)).cuda()
+                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
+                else:
+                    test_x = Variable(torch.FloatTensor(X_test))
+                    test_y = Variable(torch.FloatTensor(y_test))
+
+                test_prediction = self.net(test_x)
+                test_loss = criterion(test_prediction, test_y)
+                self.TestLosses.append(test_loss.cpu().data.numpy())
+
+                self.test_prediction = test_prediction.cpu().data.numpy()
+                self.test_prediction[self.test_prediction < 0] = 0
+
+                print(
+                    '\033[1;35m Testing... epoch: {}, loss: {} \033[0m!'.format((e + 1), test_loss.cpu().data.numpy()))
+
+        end = time.time()
+        self.t = end - start
+        print('Training completed!!! Time consuming: {}'.format(str(self.t)))
 
     def predict(self, X_test):
 
@@ -601,41 +881,96 @@ class LSTM():
             test_x = Variable(torch.FloatTensor(X_test))
             prediction = self.net(test_x)
 
+        prediction = prediction.cpu().data.numpy()
+        prediction[prediction < 0] = 0
         return prediction
 
-    def score(self, X_test, y_test):
+    def score(self):
 
-        prediction = self.predict(X_test).data.numpy()
+        assert self.test_prediction is not None, '使用 score 前需要 fit'
+
         self.mse, self.rmse, self.mae, self.mape, \
-        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(y_test, prediction, X_test.shape[-1])
+        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(self.y_test,
+                                                                    self.test_prediction, self.X_test.shape[-1])
 
-    def result_plot(self, X_test, y_test, save_file, is_show=False):
+    def __result_plot(self, save_file):
 
-        prediction = self.predict(X_test).data.numpy()
-        prediction[prediction < 0] = 0
-
-        plt.plot(range(len(prediction)), prediction, 'r--', label='prediction')
-        plt.plot(range(len(y_test)), y_test, 'b--', label="true")
+        plt.plot(range(len(self.test_prediction)), self.test_prediction, 'r--', label='prediction')
+        plt.plot(range(len(self.y_test)), self.y_test, 'b--', label="true")
         plt.legend()
-        plt.savefig(save_file)
-        if is_show:
-            plt.show()
+        try:
+            plt.savefig(save_file)
+            print('Save the picture successfully!')
+        except:
+            print('You have not define the path of saving!')
         plt.close()
-        print('Save the picture successfully!')
 
-    def loss_plot(self):
+    def __loss_plot(self, train_save, test_save):
 
-        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="loss")
+        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="train_loss")
         plt.legend()
-        plt.show()
+        try:
+            plt.savefig(train_save)
+            print('Save the picture of training loss successfully!')
+        except:
+            print('You have not define the path of saving!')
+        plt.close()
 
-    def save_result(self, save_path, is_standard=False, Dimensionality_reduction_method='None'):
+        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'r', label="test_loss")
+        plt.legend()
+        try:
+            plt.savefig(test_save)
+            print('Save the picture of testing loss  successfully!')
+        except:
+            print('You have not define the path of saving!')
+
+        plt.close()
+
+    def __save_result(self, save_path):
+
+        assert self.mse is not None, '需要先调用 score 函数'
+
         try:
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
-        tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
+        count = tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
                                 self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
                                 self.r2_adjusted, self.rmsle,
-                                is_standard, Dimensionality_reduction_method, save_path, train_type='regression')
+                                self.is_standard, self.Dimensionality_reduction_method, self.t,
+                                save_path, train_type='regression')
         print('Save results success!')
+        return count
+
+    def save(self):
+        '''
+        保存 pic， prediction，
+        :return:
+        '''
+
+        # 保存 result，需要获得一个与行对应的数（count）
+        result_path = os.path.join(self.save_path, 'Results.csv')
+        count = self.__save_result(result_path)
+
+        # 保存 prediction
+        pred_path = os.path.join(self.save_path, 'Prediction')
+        if not os.path.exists(pred_path):
+            os.makedirs(pred_path)
+        save_prediction = os.path.join(pred_path, str(count) + '.csv')
+        np.savetxt(save_prediction, self.test_prediction, delimiter=',')
+        print('Save the value of prediction successfully!!')
+
+        # 保存图片
+        pic_path = os.path.join(self.save_path, 'Pictures')
+        if not os.path.exists(pic_path):
+            os.makedirs(pic_path)
+        pic_file = os.path.join(pic_path, str(count) + '.png')
+        self.__result_plot(save_file=pic_file)
+
+        # 保存 loss
+        loss_path = os.path.join(self.save_path, 'Loss')
+        if not os.path.exists(loss_path):
+            os.makedirs(loss_path)
+        train_loss = os.path.join(loss_path, 'Train' + str(count) + '.png')
+        test_loss = os.path.join(loss_path, 'Test' + str(count) + '.png')
+        self.__loss_plot(train_save=train_loss, test_save=test_loss)

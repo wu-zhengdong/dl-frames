@@ -4,6 +4,8 @@ import os
 from sklearn.metrics import confusion_matrix
 import torch
 
+import matplotlib.pyplot as plt
+
 '''
 This is a toolkit that provides calculations, save results, create data set, plot result pictures.
 '''
@@ -108,108 +110,138 @@ def cross_entropy_erorr(y, t):
 
 def save_ann_results(epoch, batch_size, lr, dropout, layer_numbers, hidden_layers, activate_function,
                      value1, value2, value3, value4, value5, value6, value7,
-                     is_standrad, Dimensionality_reduction_method, save_file, train_type):
+                     is_standrad, Dimensionality_reduction_method, t, save_result, train_type):
+
+    # 计算行数，匹配 prediciton 的保存
+    try:
+        count = len(open(save_result, 'rU').readlines())
+    except:
+        count = 1
 
     # save the regression results
     if train_type == 'regression':
-        if not os.path.exists(save_file):
-            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' \
+        if not os.path.exists(save_result):
+            content = 'Count' + ',' + 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' \
                       + 'hidden_neurons' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' \
                       + 'mape' + ',' + 'r2' + ',' + 'r2_adjusted' + ',' + 'rmsle' + ',' + 'is_standard' + ',' \
-                      + 'Dimensionality_reduction_method'
-            with open(save_file, 'a') as f:
+                      + 'Dimensionality_reduction_method' + ',' + 'Time'
+            with open(save_result, 'a') as f:
                 f.write(content)
                 f.write('\n')
-        content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) \
+        content = str(count) + ',' + str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(layer_numbers) \
                   + ',' + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) \
                   + ',' + str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) \
-                  + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
+                  + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method) + ',' + str(t)
+
     # save the classification results
     if train_type == 'classification':
-        if not os.path.exists(save_file):
-            content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_layer_number' + ',' \
-                      + 'hidden_neurons' + ',' + 'activate function' + ',' + 'acc' + ',' + 'precision' + ',' + \
-                      'recall' + ',' + 'f1' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method'
-            with open(save_file, 'a') as f:
+        if not os.path.exists(save_result):
+            content = 'Count' + ',' + 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' \
+                      + 'hidden_layer_number' + ',' + 'hidden_neurons' + ',' + 'activate function' + ',' + 'acc' + ',' \
+                      + 'precision' + ',' + 'recall' + ',' + 'f1' + ',' + 'is_standard' + ',' \
+                      + 'Dimensionality_reduction_method' + ',' + 'Time'
+            with open(save_result, 'a') as f:
                 f.write(content)
                 f.write('\n')
-        content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(
-            layer_numbers) + ',' \
-                  + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + \
-                  ',' + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' \
-                  + str(Dimensionality_reduction_method)
-    with open(save_file, 'a') as f:
+        content = str(count) + ',' + str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' \
+                  + str(layer_numbers) + ',' + str(hidden_layers) + ',' + str(activate_function) + ',' + str(value1) \
+                  + ',' + str(value2) + ',' + str(value3) + ',' + str(value4) + ',' + str(is_standrad) + ',' \
+                  + str(Dimensionality_reduction_method) + ',' + str(t)
+    with open(save_result, 'a') as f:
         f.write(content)
         f.write('\n')
+
+    return count
 
 
 def save_cnn_results(epoch, batch_size, lr, dropout, conv_layers, channle_numbers, conv_kernel_size, conv_stride,
                      pooling_size, pooling_stride, flatten, activate_function, value1, value2, value3, value4, value5,
-                     value6, value7, is_standrad, Dimensionality_reduction_method, save_file, train_type):
+                     value6, value7, is_standrad, Dimensionality_reduction_method, t, save_result, train_type):
+    # 计算行数，匹配 prediciton 的保存
+    try:
+        count = len(open(save_result, 'rU').readlines())
+    except:
+        count = 1
 
-    if not os.path.exists(save_file):
-        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'conv_layers' + ',' + \
+    if not os.path.exists(save_result):
+        content = 'Count' + ',' + 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'conv_layers' + ',' + \
                   'channle_numbers' + ',' + 'conv_kernel_size' + ',' + 'conv_stride' + ',' + 'pooling_kernel_size' + \
                   ',' + 'pooling_stride' + ',' + 'flatten' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' \
                   + ',' + 'mae' + ',' + 'mape' + ',' + 'r2' + ',' + 'r2_adjusted' + ',' + 'rmsle' + ',' \
-                  + 'is_standard' + ',' + 'Dimensionality_reduction_method'
-        with open(save_file, 'a') as f:
+                  + 'is_standard' + ',' + 'Dimensionality_reduction_method' + ',' + 'Time'
+        with open(save_result, 'a') as f:
             f.write(content)
             f.write('\n')
-    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(conv_layers) + ',' + \
+    content = str(count) + ',' + str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(conv_layers) + ',' + \
               str(channle_numbers) + ',' + str(conv_kernel_size) + ',' + str(conv_stride) + ',' + str(pooling_size) + \
               ',' + str(pooling_stride) + ',' + str(flatten) + ',' + str(activate_function) + ',' + str(value1) + ',' \
               + str(value2) + ',' + str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' \
-              + str(value7) + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
-    with open(save_file, 'a') as f:
+              + str(value7) + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method) + ',' + str(t)
+    with open(save_result, 'a') as f:
         f.write(content)
         f.write('\n')
 
+    return count
 
 def save_lstm_results(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function, value1, value2,
-                      value3, value4, value5, value6, value7, is_standrad, Dimensionality_reduction_method, save_file,
+                      value3, value4, value5, value6, value7, is_standrad, Dimensionality_reduction_method, t, save_result,
                       train_type):
 
-    if not os.path.exists(save_file):
-        content = 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_size' + ',' \
-                  + 'hidden_size' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' \
+    # 计算行数，匹配 prediciton 的保存
+    try:
+        count = len(open(save_result, 'rU').readlines())
+    except:
+        count = 1
+
+    if not os.path.exists(save_result):
+        content = 'Count' + ',' + 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'hidden_size' \
+                  + ',' + 'hidden_size' + ',' + 'activate function' + ',' + 'mse' + ',' + 'rmse' + ',' + 'mae' + ',' \
                   + 'mape' + ',' + 'r2' + ',' + 'r2_adjusted' + ',' + 'rmsle' + ',' \
-                  + 'is_standard' + ',' + 'Dimensionality_reduction_method'
-        with open(save_file, 'a') as f:
+                  + 'is_standard' + ',' + 'Dimensionality_reduction_method' + ',' + 'Time'
+        with open(save_result, 'a') as f:
             f.write(content)
             f.write('\n')
-    content = str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' + str(num_layers) + ','  \
-              + str(hidden_size) + ',' + str(activate_function) + ',' + str(value1) + ',' + str(value2) + ',' +\
-              str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) + ',' \
-              + str(is_standrad) + ',' + str(Dimensionality_reduction_method)
-    with open(save_file, 'a') as f:
+    content = str(count) + ',' + str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' \
+              + str(num_layers) + ',' + str(hidden_size) + ',' + str(activate_function) + ',' + str(value1) + ',' \
+              + str(value2) + ',' + str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' \
+              + str(value7) + ',' + str(is_standrad) + ',' + str(Dimensionality_reduction_method) + ',' + str(t)
+    with open(save_result, 'a') as f:
         f.write(content)
         f.write('\n')
 
+    return count
 
-def save_elm(hidden_nodes, value1, value2, value3, value4, value5, value6, value7, is_standard,
-             Dimensionality_reduction_method, save_file, train_type):
+
+def save_elm(prediction, hidden_nodes, value1, value2, value3, value4, value5, value6, value7, is_standard,
+             Dimensionality_reduction_method, save_path, train_type):
+
+    # 计算行数，匹配 prediciton 的保存
+    save_result = os.path.join(save_path, 'result.csv')
+
+    count = len(open(save_result, 'rU').readlines()) + 1
+    save_prediction = os.path.join(save_path, str(count) + '.csv')
+    np.savetxt(save_prediction, prediction, delimiter=',')
 
     if train_type == 'Regression':
-        if not os.path.exists(save_file):
-            content = 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'MAPE' + ',' + 'R2' + ',' + \
+        if not os.path.exists(save_result):
+            content = 'Count' + ',' + 'hidden_nodes' + ',' + 'MSE' + ',' + 'RMSE' + ',' + 'MAE' + ',' + 'MAPE' + ',' + 'R2' + ',' + \
                       'r2_adjusted' + ',' + 'RMSLE' + ',' + 'is_standrad' + ',' + 'Dimensionality_reduction_method'
-            with open(save_file, 'a') as f:
+            with open(save_result, 'a') as f:
                 f.write(content)
                 f.write('\n')
 
-        content = str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' + str(value3) + ',' + \
-                  str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) + ',' \
+        content = str(count) + ',' + str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' \
+                  + str(value3) + ',' + str(value4) + ',' + str(value5) + ',' + str(value6) + ',' + str(value7) + ',' \
                   + str(is_standard) + ',' + str(Dimensionality_reduction_method)
     if train_type == 'Classification':
-        if not os.path.exists(save_file):
-            content = 'hidden_nodes' + ',' + 'ACC' + ',' + 'Precision' + ',' + 'Recall' + ',' + 'F1' + ',' + \
-                      'is_standrad' + ',' + 'Dimensionality_reduction_method'
-            with open(save_file, 'a') as f:
+        if not os.path.exists(save_result):
+            content = 'Count' + ',' + 'hidden_nodes' + ',' + 'ACC' + ',' + 'Precision' + ',' + 'Recall' + ',' + 'F1' \
+                      + ',' + 'is_standrad' + ',' + 'Dimensionality_reduction_method'
+            with open(save_result, 'a') as f:
                 f.write(content)
                 f.write('\n')
-        content = str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' + str(value3) + ',' + \
-                  str(value4) + ',' + str(is_standard) + ',' + str(Dimensionality_reduction_method)
-    with open(save_file, 'a') as f:
+        content = str(count) + ',' + str(hidden_nodes) + ',' + str(value1) + ',' + str(value2) + ',' \
+                  + str(value3) + ',' + str(value4) + ',' + str(is_standard) + ',' + str(Dimensionality_reduction_method)
+    with open(save_result, 'a') as f:
         f.write(content)
         f.write('\n')

@@ -21,6 +21,8 @@
 
 ### 2019/08/30: 梯度衰减错误已修改
 
+### 2019/09/05: 将predict函数的输出转变为矩阵
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子
