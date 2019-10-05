@@ -25,6 +25,8 @@
 
 ### 2019/09/09: 对模型进行了大改（regression 模型），添加了降雨预测的实例
 
+### 2019/10/05: 添加对单 gpu 的使用，详细看 GPU使用方法.ipynb
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子

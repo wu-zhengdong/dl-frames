@@ -18,9 +18,9 @@ The frames of deep learning technology with regression problems, including ANN, 
 
 
 class ANN():
-    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', epoch=2000,
-                 batch_size=128, is_standard=False, Dimensionality_reduction_method='None',
-                 save_path='ANN_Result'):
+    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', device=0,
+                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False,
+                 Dimensionality_reduction_method='None', save_path='ANN_Result'):
 
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
         if not os.path.exists(self.save_path):
@@ -32,6 +32,11 @@ class ANN():
         self.activate_function = activate_function
         self.epoch = epoch
         self.batch_size = batch_size
+
+        # 使用第几张 GPU,默认第 0 张，使用单卡。
+        self.device = 'cuda:' + str(device)
+        # 是否使用多卡
+        self.use_more_gpu = use_more_gpu
 
         # 存储数据预处理的操作
         self.is_standard = is_standard
@@ -162,7 +167,20 @@ class ANN():
         net_path = os.path.join(net_weight, str(count) + '.pkl')
         net_para_path = os.path.join(net_weight, str(count) + '_parameters.pkl')
 
+        device = torch.device(self.device if torch.cuda.is_available() else "cpu")
+        if torch.cuda.is_available():
+            print("Let's use GPU: {}".format(self.device))
+        else:
+            print("Let's use CPU")
+
+        # 实例化网络
         self.net = self.model(input_size, output_size)
+        if self.use_more_gpu and torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs")
+            # dim = 0 [64, xxx] -> [32, ...], [32, ...] on 2GPUs
+            self.net = nn.DataParallel(self.net)
+        self.net.to(device)
+
         try:
             self.net.load_state_dict(torch.load(net_para_path))
         except:
@@ -191,8 +209,8 @@ class ANN():
                 if torch.cuda.is_available():
                     #print('cuda')
                     self.net = self.net.cuda()
-                    train_x = Variable(b_train[:, :-1]).cuda()
-                    train_y = Variable(b_train[:, -1:]).cuda()
+                    train_x = Variable(b_train[:, :-1]).to(device)
+                    train_y = Variable(b_train[:, -1:]).to(device)
                 else:
                     train_x = Variable(b_train[:, :-1])
                     train_y = Variable(b_train[:, -1:])
@@ -214,8 +232,8 @@ class ANN():
 
                 self.net.eval()
                 if torch.cuda.is_available():
-                    test_x = Variable(torch.FloatTensor(X_test)).cuda()
-                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
+                    test_x = Variable(torch.FloatTensor(X_test)).to(device)
+                    test_y = Variable(torch.FloatTensor(y_test)).to(device)
                 else:
                     test_x = Variable(torch.FloatTensor(X_test))
                     test_y = Variable(torch.FloatTensor(y_test))
@@ -235,9 +253,11 @@ class ANN():
 
     def predict(self, X_test):
 
+        device = torch.device(self.device if torch.cuda.is_available() else "cpu")
+
         self.net.eval()
         if torch.cuda.is_available():
-            test_x = Variable(torch.FloatTensor(X_test)).cuda()
+            test_x = Variable(torch.FloatTensor(X_test)).to(device)
         else:
             test_x = Variable(torch.FloatTensor(X_test))
 
@@ -333,12 +353,33 @@ class ANN():
         self.__result_plot(save_file=pic_file)
 
         # 保存 loss
-        loss_path = os.path.join(self.save_path, 'Loss')
-        if not os.path.exists(loss_path):
-            os.makedirs(loss_path)
-        train_loss = os.path.join(loss_path, 'Train' + str(count) + '.png')
-        test_loss = os.path.join(loss_path, 'Test' + str(count) + '.png')
+        train_loss_path_pic = self.save_path + '/Loss/Train/pic'
+        test_loss_path_pic = self.save_path + '/Loss/Test/pic'
+        train_loss_path_value = self.save_path + '/Loss/Train/Values'
+        test_loss_path_value = self.save_path + '/Loss/Test/Values'
+
+
+        if not os.path.exists(train_loss_path_pic):
+            os.makedirs(train_loss_path_pic)
+
+        if not os.path.exists(test_loss_path_pic):
+            os.makedirs(test_loss_path_pic)
+
+        if not os.path.exists(train_loss_path_value):
+            os.makedirs(train_loss_path_value)
+
+        if not os.path.exists(test_loss_path_value):
+            os.makedirs(test_loss_path_value)
+
+        train_loss = os.path.join(train_loss_path_pic, 'train' + str(count) + '.png')
+        test_loss = os.path.join(test_loss_path_pic, 'test' + str(count) + '.png')
         self.__loss_plot(train_save=train_loss, test_save=test_loss)
+
+        train_loss_value = np.array(self.TrainLosses)
+        test_loss_value = np.array(self.TestLosses)
+
+        np.savetxt(train_loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
+        np.savetxt(test_loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')
 
 
 '''
@@ -348,9 +389,9 @@ CNN model
 
 class CNN(object):
     def __init__(self, learning_rate, conv_stride = 1, kernel_size=3, pooling_size=2, pool_stride = 2,
-                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0,
-                 epoch=2000, batch_size=128, is_standard=False, Dimensionality_reduction_method='None',
-                 save_path='CNN_Results'):
+                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0, device=0,
+                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False,
+                 Dimensionality_reduction_method='None', save_path='CNN_Results'):
 
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
         if not os.path.exists(self.save_path):
@@ -368,6 +409,11 @@ class CNN(object):
         self.dropout = dropout
         self.epoch = epoch
         self.batch_size = batch_size
+
+        # 使用第几张 GPU,默认第 0 张，使用单卡。
+        self.device = 'cuda:' + str(device)
+        # 是否使用多卡
+        self.use_more_gpu = use_more_gpu
 
         self.is_standard = is_standard
         self.Dimensionality_reduction_method = Dimensionality_reduction_method
@@ -527,7 +573,19 @@ class CNN(object):
         net_path = os.path.join(net_weight, str(count) + '.pkl')
         net_para_path = os.path.join(net_weight, str(count) + '_parameters.pkl')
 
+        device = torch.device(self.device if torch.cuda.is_available() else "cpu")
+        if torch.cuda.is_available():
+            print("Let's use GPU: {}".format(self.device))
+        else:
+            print("Let's use CPU")
+
+        # 实例化网络
         self.net = conv_bn_net(conv, flatten)
+        if self.use_more_gpu and torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs")
+            # dim = 0 [64, xxx] -> [32, ...], [32, ...] on 2GPUs
+            self.net = nn.DataParallel(self.net)
+        self.net.to(device)
         try:
             self.net.load_state_dict(torch.load(net_para_path))
         except:
@@ -555,8 +613,8 @@ class CNN(object):
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
                     self.net = self.net.cuda()
-                    train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H)).cuda()
-                    train_y = Variable(b_train[:, -1:]).cuda()
+                    train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H)).to(device)
+                    train_y = Variable(b_train[:, -1:]).to(device)
                 else:
                     train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H))
                     train_y = Variable(b_train[:, -1:])
@@ -578,8 +636,8 @@ class CNN(object):
 
                 self.net.eval()
                 if torch.cuda.is_available():
-                    test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H)).cuda()
-                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
+                    test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H)).to(device)
+                    test_y = Variable(torch.FloatTensor(y_test)).to(device)
                 else:
                     test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H))
                     test_y = Variable(torch.FloatTensor(y_test))
@@ -599,10 +657,12 @@ class CNN(object):
 
     def predict(self, X_test):
 
+        device = torch.device(self.device if torch.cuda.is_available() else "cpu")
+
         self.net.eval()
         if torch.cuda.is_available():
-            test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H)).cuda()
-            prediction = self.net(test_x).cpu()
+            test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H)).to(device)
+            prediction = self.net(test_x).to(device)
         else:
             test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H))
             prediction = self.net(test_x)
@@ -696,13 +756,32 @@ class CNN(object):
         self.__result_plot(save_file=pic_file)
 
         # 保存 loss
-        loss_path = os.path.join(self.save_path, 'Loss')
-        if not os.path.exists(loss_path):
-            os.makedirs(loss_path)
-        train_loss = os.path.join(loss_path, 'Train' + str(count) + '.png')
-        test_loss = os.path.join(loss_path, 'Test' + str(count) + '.png')
+        train_loss_path_pic = self.save_path + '/Loss/Train/pic'
+        test_loss_path_pic = self.save_path + '/Loss/Test/pic'
+        train_loss_path_value = self.save_path + '/Loss/Train/Values'
+        test_loss_path_value = self.save_path + '/Loss/Test/Values'
+
+        if not os.path.exists(train_loss_path_pic):
+            os.makedirs(train_loss_path_pic)
+
+        if not os.path.exists(test_loss_path_pic):
+            os.makedirs(test_loss_path_pic)
+
+        if not os.path.exists(train_loss_path_value):
+            os.makedirs(train_loss_path_value)
+
+        if not os.path.exists(test_loss_path_value):
+            os.makedirs(test_loss_path_value)
+
+        train_loss = os.path.join(train_loss_path_pic, 'Train' + str(count) + '.png')
+        test_loss = os.path.join(test_loss_path_pic, 'Test' + str(count) + '.png')
         self.__loss_plot(train_save=train_loss, test_save=test_loss)
 
+        train_loss_value = np.array(self.TrainLosses)
+        test_loss_value = np.array(self.TestLosses)
+
+        np.savetxt(train_loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
+        np.savetxt(test_loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')
 
 
 '''
@@ -711,8 +790,8 @@ LSTM model
 
 
 class LSTM():
-    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu',
-                 epoch=2000, batch_size=128, save_path='LSTM_Results',
+    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu', device=0,
+                 use_more_gpu=False, epoch=2000, batch_size=128, save_path='LSTM_Results',
                  is_standard=False, Dimensionality_reduction_method='None'):
 
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
@@ -727,6 +806,11 @@ class LSTM():
         self.activate_function = activate_function
         self.epoch = epoch
         self.batch_size = batch_size
+
+        # 使用第几张 GPU,默认第 0 张，使用单卡。
+        self.device = 'cuda:' + str(device)
+        # 是否使用多卡
+        self.use_more_gpu = use_more_gpu
 
         self.is_standard = is_standard
         self.Dimensionality_reduction_method = Dimensionality_reduction_method
@@ -798,8 +882,20 @@ class LSTM():
         net_path = os.path.join(net_weight, str(count) + '.pkl')
         net_para_path = os.path.join(net_weight, str(count) + '_parameters.pkl')
 
+        device = torch.device(self.device if torch.cuda.is_available() else "cpu")
+        if torch.cuda.is_available():
+            print("Let's use GPU: {}".format(self.device))
+        else:
+            print("Let's use CPU")
+            
+        # 实例化网络
         self.net = lstm_network(input_size=input_size, hidden_size=self.hidden_size, num_layers=self.num_layers,
                                 output_size=output_size, dropout=self.dropout, activate_function=activate_function)
+        if self.use_more_gpu and torch.cuda.device_count() > 1:
+            print("Let's use", torch.cuda.device_count(), "GPUs")
+            # dim = 0 [64, xxx] -> [32, ...], [32, ...] on 2GPUs
+            self.net = nn.DataParallel(self.net)
+        self.net.to(device)
         try:
             self.net.load_state_dict(torch.load(net_para_path))
         except:
@@ -828,8 +924,8 @@ class LSTM():
                 if torch.cuda.is_available():
                     #print('cuda')
                     self.net = self.net.cuda()
-                    train_x = Variable(torch.FloatTensor(b_data[i])).cuda()
-                    train_y = Variable(torch.FloatTensor(b_labels[i])).cuda()
+                    train_x = Variable(torch.FloatTensor(b_data[i])).to(device)
+                    train_y = Variable(torch.FloatTensor(b_labels[i])).to(device)
                 else:
                     train_x = Variable(torch.FloatTensor(b_data[i]))
                     train_y = Variable(torch.FloatTensor(b_labels[i]))
@@ -873,14 +969,15 @@ class LSTM():
 
     def predict(self, X_test):
 
+        device = torch.device(self.device if torch.cuda.is_available() else "cpu")
+
         self.net.eval()
         if torch.cuda.is_available():
-            test_x = Variable(torch.FloatTensor(X_test)).cuda()
-            prediction = self.net(test_x).cpu()
+            test_x = Variable(torch.FloatTensor(X_test)).to(device)
         else:
             test_x = Variable(torch.FloatTensor(X_test))
-            prediction = self.net(test_x)
 
+        prediction = self.net(test_x)
         prediction = prediction.cpu().data.numpy()
         prediction[prediction < 0] = 0
         return prediction
@@ -968,9 +1065,29 @@ class LSTM():
         self.__result_plot(save_file=pic_file)
 
         # 保存 loss
-        loss_path = os.path.join(self.save_path, 'Loss')
-        if not os.path.exists(loss_path):
-            os.makedirs(loss_path)
-        train_loss = os.path.join(loss_path, 'Train' + str(count) + '.png')
-        test_loss = os.path.join(loss_path, 'Test' + str(count) + '.png')
+        train_loss_path_pic = self.save_path + '/Loss/Train/pic'
+        test_loss_path_pic = self.save_path + '/Loss/Test/pic'
+        train_loss_path_value = self.save_path + '/Loss/Train/Values'
+        test_loss_path_value = self.save_path + '/Loss/Test/Values'
+
+        if not os.path.exists(train_loss_path_pic):
+            os.makedirs(train_loss_path_pic)
+
+        if not os.path.exists(test_loss_path_pic):
+            os.makedirs(test_loss_path_pic)
+
+        if not os.path.exists(train_loss_path_value):
+            os.makedirs(train_loss_path_value)
+
+        if not os.path.exists(test_loss_path_value):
+            os.makedirs(test_loss_path_value)
+
+        train_loss = os.path.join(train_loss_path_pic, 'Train' + str(count) + '.png')
+        test_loss = os.path.join(test_loss_path_pic, 'Test' + str(count) + '.png')
         self.__loss_plot(train_save=train_loss, test_save=test_loss)
+
+        train_loss_value = np.array(self.TrainLosses)
+        test_loss_value = np.array(self.TestLosses)
+
+        np.savetxt(train_loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
+        np.savetxt(test_loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')
