@@ -27,6 +27,13 @@
 
 ### 2019/10/05: 添加对单 gpu 的使用，详细看 GPU使用方法.ipynb
 
+### 2019/10/26: 
+
+1. 添加了 classification2，暂时没修改完，ANN模型可以运行
+2. 对 LSTM regression 的 bug 改正。
+3. 添加新调整参数 L2正则（weight_decay）
+4. 添加 CV 网格搜索（目前只有ANN的classification版）
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子

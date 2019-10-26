@@ -19,7 +19,7 @@ The frames of deep learning technology with regression problems, including ANN, 
 
 class ANN():
     def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', device=0,
-                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False,
+                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False, weight_decay=1e-8,
                  Dimensionality_reduction_method='None', save_path='ANN_Result'):
 
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
@@ -32,6 +32,7 @@ class ANN():
         self.activate_function = activate_function
         self.epoch = epoch
         self.batch_size = batch_size
+        self.weight_decay = weight_decay
 
         # 使用第几张 GPU,默认第 0 张，使用单卡。
         self.device = 'cuda:' + str(device)
@@ -53,11 +54,13 @@ class ANN():
 
         # 判断 激活函数
         if self.activate_function == 'relu':
-            activate_function = nn.ReLU()
+            activate_function = nn.ReLU(True)
         if self.activate_function == 'sigmoid':
             activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
             activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU(True)
 
         # input_layer
         input_layer = nn.Linear(input_size, hidden_layers[0])
@@ -188,9 +191,9 @@ class ANN():
 
         self.net.train()
         try:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=self.weight_decay)
         except:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         criterion = torch.nn.MSELoss()
 
         start = time.time() # 计算时间
@@ -208,7 +211,7 @@ class ANN():
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
                     #print('cuda')
-                    self.net = self.net.cuda()
+                    #self.net = self.net.cuda()
                     train_x = Variable(b_train[:, :-1]).to(device)
                     train_y = Variable(b_train[:, -1:]).to(device)
                 else:
@@ -320,7 +323,8 @@ class ANN():
         except:
             lr = self.lr
         count = tools.save_ann_results(self.epoch, self.batch_size, lr, self.dropout,
-                                       layer_numbers, hidden_layers, self.activate_function, self.mse, self.rmse,
+                                       layer_numbers, hidden_layers, self.activate_function, self.weight_decay,
+                                       self.mse, self.rmse,
                                        self.mae, self.mape, self.r2, self.r2_adjusted, self.rmsle, self.is_standard,
                                        self.Dimensionality_reduction_method, t=self.t,
                                        save_result=save_path, train_type='regression')
@@ -389,7 +393,7 @@ CNN model
 
 class CNN(object):
     def __init__(self, learning_rate, conv_stride = 1, kernel_size=3, pooling_size=2, pool_stride = 2,
-                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0, device=0,
+                 channel_numbers = [], flatten = 1024, activate_function='relu', weight_decay=1e-8, dropout=0, device=0,
                  use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False,
                  Dimensionality_reduction_method='None', save_path='CNN_Results'):
 
@@ -406,6 +410,7 @@ class CNN(object):
 
         self.lr = learning_rate
         self.activate_function = activate_function
+        self.weight_decay = weight_decay
         self.dropout = dropout
         self.epoch = epoch
         self.batch_size = batch_size
@@ -445,9 +450,11 @@ class CNN(object):
         if self.activate_function == 'relu':
             activate_function = nn.ReLU(True)
         if self.activate_function == 'sigmoid':
-            activate_function = nn.Sigmoid(True)
+            activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
-            activate_function = nn.Tanh(True)
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU(True)
 
         # input layer
         padding = self.conv_padding_same(input_size) # 计算要补几层 0
@@ -517,9 +524,11 @@ class CNN(object):
         if self.activate_function == 'relu':
             activate_function = nn.ReLU(True)
         if self.activate_function == 'sigmoid':
-            activate_function = nn.Sigmoid(True)
+            activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
-            activate_function = nn.Tanh(True)
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU(True)
 
         return nn.Sequential(
             nn.Linear(out_shape, self.flatten),
@@ -593,9 +602,9 @@ class CNN(object):
 
         self.net.train()
         try:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=self.weight_decay)
         except:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         criterion = torch.nn.MSELoss()
 
         start = time.time()
@@ -612,7 +621,7 @@ class CNN(object):
 
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
-                    self.net = self.net.cuda()
+                    #self.net = self.net.cuda()
                     train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H)).to(device)
                     train_y = Variable(b_train[:, -1:]).to(device)
                 else:
@@ -724,7 +733,7 @@ class CNN(object):
             lr = self.lr
         count = tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
                                self.kernel_size, self.conv_stride, self.pooling_size, self.pool_stride, self.flatten,
-                               self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
+                               self.activate_function, self.weight_decay, self.mse, self.rmse, self.mae, self.mape, self.r2,
                                self.r2_adjusted, self.rmsle, self.is_standard, self.t,
                                self.Dimensionality_reduction_method, save_path, train_type='regression')
         print('Save results success!')
@@ -790,7 +799,8 @@ LSTM model
 
 
 class LSTM():
-    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu', device=0,
+    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu',
+                 weight_decay=1e-8, device=0,
                  use_more_gpu=False, epoch=2000, batch_size=128, save_path='LSTM_Results',
                  is_standard=False, Dimensionality_reduction_method='None'):
 
@@ -804,6 +814,7 @@ class LSTM():
         self.lr = learning_rate
         self.dropout = dropout
         self.activate_function = activate_function
+        self.weight_decay = weight_decay
         self.epoch = epoch
         self.batch_size = batch_size
 
@@ -863,11 +874,13 @@ class LSTM():
         # 搭建 lstm 网络
         # 判断 激活函数
         if self.activate_function == 'relu':
-            activate_function = nn.ReLU(True)
+            activate_function = nn.ReLU()
         if self.activate_function == 'sigmoid':
-            activate_function = nn.Sigmoid(True)
+            activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
-            activate_function = nn.Tanh(True)
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU()
 
         save_result = os.path.join(self.save_path, 'Results.csv')
         try:
@@ -903,15 +916,16 @@ class LSTM():
 
         self.net.train()
         try:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=self.weight_decay)
         except:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         criterion = torch.nn.MSELoss()
 
         start = time.time()
         for e in range(self.epoch):
 
             # 是否使用 梯度衰减
+            self.net.train()
             try:
                 if (e + 1) % (self.epoch // 3 * 2) == 0:
                     optim.param_groups[0]["lr"] = self.lr[1]
@@ -923,7 +937,7 @@ class LSTM():
             for i in range(len(b_data)):
                 if torch.cuda.is_available():
                     #print('cuda')
-                    self.net = self.net.cuda()
+                    #self.net = self.net.cuda()
                     train_x = Variable(torch.FloatTensor(b_data[i])).to(device)
                     train_y = Variable(torch.FloatTensor(b_labels[i])).to(device)
                 else:
@@ -947,8 +961,8 @@ class LSTM():
 
                 self.net.eval()
                 if torch.cuda.is_available():
-                    test_x = Variable(torch.FloatTensor(X_test)).cuda()
-                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
+                    test_x = Variable(torch.FloatTensor(X_test)).to(device)
+                    test_y = Variable(torch.FloatTensor(y_test)).to(device)
                 else:
                     test_x = Variable(torch.FloatTensor(X_test))
                     test_y = Variable(torch.FloatTensor(y_test))
@@ -1032,7 +1046,7 @@ class LSTM():
         except:
             lr = self.lr
         count = tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
-                                self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
+                                self.activate_function, self.weight_decay, self.mse, self.rmse, self.mae, self.mape, self.r2,
                                 self.r2_adjusted, self.rmsle,
                                 self.is_standard, self.Dimensionality_reduction_method, self.t,
                                 save_path, train_type='regression')

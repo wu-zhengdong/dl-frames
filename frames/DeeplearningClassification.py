@@ -17,7 +17,9 @@ warnings.filterwarnings('ignore')
 
 
 class ANN():
-    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', epoch=2000, batch_size=128):
+    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', device=0,
+                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False,
+                 Dimensionality_reduction_method='None'):
         # self.layers = layers
         self.hidden_layers = hidden_layers
         self.lr = learning_rate

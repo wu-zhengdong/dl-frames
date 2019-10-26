@@ -2,93 +2,89 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ac8c495-c9b4-450c-ac15-b6ed0d6b8686" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.ipynb_checkpoints/未命名-checkpoint.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/pic2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/pic3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/pic4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/train1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test3.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train3.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/3.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/1.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/1_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/2.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/2_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/3.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/3_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/4.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/4_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test3.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test5.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test6.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train3.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train5.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train6.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/2.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/3.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/4.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/5.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/6.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Results.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/1.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/1_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/2.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/2_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/3.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/3_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/4.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/4_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/5.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/5_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/6.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/6_parameters.pkl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frames/CV.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frames/DeeplearningClassification2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ANN Example (Regression).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ANN Example (Regression).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Loss/Test1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Loss/Test2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Loss/Train1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Loss/Train2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Pictures/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Pictures/1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Pictures/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Prediction/1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Prediction/1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Prediction/2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Results.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Results.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Weight/1.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Weight/1.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Weight/1_parameters.pkl" beforeDir="false" afterPath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Weight/1_parameters.pkl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Weight/2.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/ANN_Results/Weight/2_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Loss/Test1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Loss/Test2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Loss/Train1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Loss/Train2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Pictures/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Pictures/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Prediction/1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Prediction/2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Results.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Weight/1.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Weight/1_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Weight/2.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/CNN_Results/Weight/2_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM2_Results/Weight/1.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM2_Results/Weight/1_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Test7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Loss/Train7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Pictures/7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/3.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/4.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/5.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/6.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Prediction/7.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Results.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/1.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/1_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/2.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/2_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/3.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/3_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/4.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/4_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/5.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/5_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/6.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/6_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/7.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/LSTM_Results/Weight/7_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Loss/Test1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Loss/Test2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Loss/Train1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Loss/Train2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Pictures/1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Pictures/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Prediction/1.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Prediction/2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Results.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Weight/1.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Weight/1_parameters.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Weight/2.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_results/Regression/Rainfall_LSTM_Result/Weight/2_parameters.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Classification)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Classification)-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ANN Example (Classification).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ANN Example (Classification).ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/DeeplearningClassification.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningClassification.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frames/DeeplearningRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningRegression.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/tools.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -101,10 +97,46 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="889" column="12" selection-start-line="889" selection-start-column="12" selection-end-line="889" selection-end-column="12" />
+            <state relative-caret-position="2826">
+              <caret line="370" lean-forward="true" selection-start-line="370" selection-end-line="370" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-18">
+              <caret line="121" selection-start-line="121" selection-end-line="121" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="99">
+              <caret line="56" column="45" lean-forward="true" selection-start-line="56" selection-start-column="45" selection-end-line="56" selection-end-column="45" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="60" lean-forward="true" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,11 +145,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/DimensionReduction.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
+            <state>
+              <caret column="12" selection-start-column="12" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -125,11 +154,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/tools.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3075">
-              <caret line="211" column="16" selection-start-line="211" selection-start-column="16" selection-end-line="211" selection-end-column="16" />
+            <state relative-caret-position="349">
+              <caret line="204" column="108" lean-forward="true" selection-start-line="204" selection-start-column="108" selection-end-line="204" selection-end-column="108" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/GridSearch.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="915">
+              <caret line="70" column="23" selection-start-line="70" selection-start-column="23" selection-end-line="70" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/CV.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="843">
+              <caret line="68" column="45" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -141,18 +191,6 @@
               <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2685">
-              <caret line="192" column="44" selection-start-line="192" selection-start-column="44" selection-end-line="192" selection-end-column="44" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -183,6 +221,8 @@
       <find>PCA</find>
       <find>assert</find>
       <find>score</find>
+      <find>__result_plot</find>
+      <find>input_size</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -205,15 +245,18 @@
         <option value="$PROJECT_DIR$/frames/test.py" />
         <option value="$PROJECT_DIR$/frames/GridSearch.py" />
         <option value="$PROJECT_DIR$/frames/ELM.py" />
+        <option value="$PROJECT_DIR$/frames/DimensionReduction.py" />
         <option value="$PROJECT_DIR$/frames/DeeplearningClassification.py" />
+        <option value="$PROJECT_DIR$/DeeplearningClassification2.py" />
+        <option value="$PROJECT_DIR$/frames/CV.py" />
+        <option value="$PROJECT_DIR$/frames/DeeplearningClassification2.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/frames/tools.py" />
-        <option value="$PROJECT_DIR$/frames/DimensionReduction.py" />
         <option value="$PROJECT_DIR$/frames/DeeplearningRegression.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="973" />
@@ -226,6 +269,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -242,19 +286,20 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/frames" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/frames" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frames" />
       <recent name="$PROJECT_DIR$/example" />
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -401,15 +446,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="973" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24894515" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17962629" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.34392735" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.34387755" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39954597" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -485,47 +530,34 @@
     <entry file="file://$PROJECT_DIR$/Example_save_resultes/lstm_result.csv" />
     <entry file="file://$PROJECT_DIR$/clf_test.py" />
     <entry file="file://$PROJECT_DIR$/frames/test.py" />
-    <entry file="file://$PROJECT_DIR$/frames/GridSearch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="70" column="23" selection-start-line="70" selection-start-column="23" selection-end-line="70" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ANN Example (Classification).ipynb">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py" />
     <entry file="file://$PROJECT_DIR$/ANN_Result/Pictures/1.png" />
     <entry file="file://$PROJECT_DIR$/ANN_Result/Pictures/2.png" />
-    <entry file="file://$PROJECT_DIR$/ANN_Result/Results.csv" />
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="889" column="12" selection-start-line="889" selection-start-column="12" selection-end-line="889" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/ANN_Result/Loss/Pic/pic2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ANN_Result/Loss/Pic/pic3.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ANN_Result/Results.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ANN_Result/Loss/Pic/pic4.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/DimensionReduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/tools.py">
+    <entry file="file://$PROJECT_DIR$/frames/GridSearch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3075">
-          <caret line="211" column="16" selection-start-line="211" selection-start-column="16" selection-end-line="211" selection-end-column="16" />
+        <state relative-caret-position="915">
+          <caret line="70" column="23" selection-start-line="70" selection-start-column="23" selection-end-line="70" selection-end-column="23" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -542,20 +574,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
+    <entry file="file://$PROJECT_DIR$/frames/Based_model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2685">
-          <caret line="192" column="44" selection-start-line="192" selection-start-column="44" selection-end-line="192" selection-end-column="44" />
+        <state relative-caret-position="120">
+          <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/CV.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="843">
+          <caret line="68" column="45" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classification_results/ANN/Prediction/3.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ANN Example (Regression).ipynb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="60" lean-forward="true" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="56" column="45" lean-forward="true" selection-start-line="56" selection-start-column="45" selection-end-line="56" selection-end-column="45" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/Based_model.py">
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
+        <state relative-caret-position="-18">
+          <caret line="121" selection-start-line="121" selection-end-line="121" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="204" column="108" lean-forward="true" selection-start-line="204" selection-start-column="108" selection-end-line="204" selection-end-column="108" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2826">
+          <caret line="370" lean-forward="true" selection-start-line="370" selection-end-line="370" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
