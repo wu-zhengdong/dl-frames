@@ -52,7 +52,9 @@ class ANN():
 
         self.TrainLosses = []
         self.TestLosses = []
-        self.t = 0
+        self.D = []
+        self.n = 0  # 来记录 梯度衰减 的次数
+        self.limit = [1e-2, 1e-3, 1e-4]
 
     def model(self, input_size, output_size):
         ''' create network '''
@@ -72,6 +74,7 @@ class ANN():
         # input_layer
         input_layer = nn.Linear(input_size, hidden_layers[0])
         layers.append(input_layer)
+        layers.append(nn.BatchNorm1d(hidden_layers[0]))
         layers.append(activate_function)
         layers.append(nn.Dropout(self.dropout))
 
@@ -81,6 +84,7 @@ class ANN():
         for i in range(hidden_layers_number):
             try:
                 layers.append(nn.Linear(hidden_layers[i], hidden_layers[i + 1]))
+                layers.append(nn.BatchNorm1d(hidden_layers[i + 1]))
                 layers.append(activate_function)
                 layers.append(nn.Dropout(self.dropout))
             except:
@@ -94,21 +98,22 @@ class ANN():
         if hidden_layers_number == 1:
             seq_net = nn.Sequential(
                 layers[0], layers[1], layers[2],
-                layers[3], nn.Softmax(dim=1)
+                layers[3], layers[4]
             )
 
         if hidden_layers_number == 2:
             seq_net = nn.Sequential(
                 layers[0], layers[1], layers[2],
                 layers[3], layers[4], layers[5],
-                layers[6]
+                layers[6], layers[7], layers[8],
             )
         if hidden_layers_number == 3:
             seq_net = nn.Sequential(
                 layers[0], layers[1], layers[2],
                 layers[3], layers[4], layers[5],
                 layers[6], layers[7], layers[8],
-                layers[9]
+                layers[9], layers[10], layers[11],
+                layers[12]
             )
 
         if hidden_layers_number == 4:
@@ -117,7 +122,8 @@ class ANN():
                 layers[3], layers[4], layers[5],
                 layers[6], layers[7], layers[8],
                 layers[9], layers[10], layers[11],
-                layers[12]
+                layers[12], layers[13], layers[14],
+                layers[15], layers[16]
             )
 
         if hidden_layers_number == 5:
@@ -127,7 +133,8 @@ class ANN():
                 layers[6], layers[7], layers[8],
                 layers[9], layers[10], layers[11],
                 layers[12], layers[13], layers[14],
-                layers[15]
+                layers[15], layers[16], layers[17],
+                layers[18], layers[19], layers[20]
             )
 
         if hidden_layers_number == 6:
@@ -138,7 +145,9 @@ class ANN():
                 layers[9], layers[10], layers[11],
                 layers[12], layers[13], layers[14],
                 layers[15], layers[16], layers[17],
-                layers[18]
+                layers[18], layers[19], layers[20],
+                layers[21], layers[22], layers[23],
+                layers[24],
             )
 
         return seq_net
@@ -169,7 +178,7 @@ class ANN():
 
         y_onehot = OneHotEncoder().fit_transform(y_train)
 
-        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
+        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train.flatten(), y_test.flatten()
 
         self.input_size, self.output_size = X_train.shape[1], y_onehot.shape[1]
         batch_train_set = self.create_batch_size(X_train, y_train)
@@ -195,8 +204,6 @@ class ANN():
         else:
             print("Let's use CPU")
 
-        # 实例化网络
-
         if self.use_more_gpu and torch.cuda.device_count() > 1:
             print("Let's use", torch.cuda.device_count(), "GPUs")
             # dim = 0 [64, xxx] -> [32, ...], [32, ...] on 2GPUs
@@ -216,16 +223,18 @@ class ANN():
         criterion = torch.nn.CrossEntropyLoss()
 
         start = time.time() # 计算时间
+        limit = self.limit[0]
         for e in range(self.epoch):
 
-            # 是否使用 梯度衰减
-            try:
-                if (e + 1) % (self.epoch // 3) == 0:
-                    optim.param_groups[0]["lr"] = self.lr[1]
-                if (e + 1) % (self.epoch // 3 * 2) == 0:
-                    optim.param_groups[0]["lr"] = self.lr[2]
-            except:
-                pass
+            self.net.train()
+            # # 是否使用 梯度衰减
+            # try:
+            #     if (e + 1) % (self.epoch // 3) == 0:
+            #         optim.param_groups[0]["lr"] = self.lr[1]
+            #     if (e + 1) % (self.epoch // 3 * 2) == 0:
+            #         optim.param_groups[0]["lr"] = self.lr[2]
+            # except:
+            #     pass
 
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
@@ -238,39 +247,60 @@ class ANN():
                     train_y = Variable(b_train[:, -1].type(torch.int64))
 
                 prediction = self.net(train_x)
-
                 loss = criterion(prediction, train_y)
 
                 optim.zero_grad()
                 loss.backward()
                 optim.step()
 
-            if (e + 1) % 100 == 0:
-                self.TrainLosses.append(loss.cpu().data.numpy())
-                train_acc = self.__get_acc(prediction, train_y)
-                print('Training... epoch: {}, loss: {}, acc: {}'.format((e+1), loss.cpu().data.numpy(), train_acc))
-                torch.save(self.net, net_path)
-                torch.save(self.net.state_dict(), net_para_path)
+            self.D.append(loss.cpu().data.numpy())
 
-                self.net.eval()
-                if torch.cuda.is_available():
-                    test_x = Variable(torch.FloatTensor(X_test)).to(device)
-                    test_y = Variable(torch.FloatTensor(y_test.reshape(-1, )).type(torch.int64)).to(device)
-                else:
-                    test_x = Variable(torch.FloatTensor(X_test))
-                    test_y = Variable(torch.FloatTensor(y_test.reshape(-1, )).type(torch.int64))
+            # epoch 终止装置
+            if len(self.D) >= 20:
+                loss1 = np.mean(np.array(self.D[-20:-10]))
+                loss2 = np.mean(np.array(self.D[-10:]))
+                d = np.float(np.abs(loss2 - loss1))
 
-                test_prediction = self.net(test_x)
+                if d < limit:
+                    self.D = [] # 重置
+                    self.n += 1
+                    print('The error changes within {}'.format(limit))
+                    self.e = e + 1
 
-                test_loss = criterion(test_prediction, test_y)
-                self.TestLosses.append(test_loss.cpu().data.numpy())
+                    self.TrainLosses.append(loss.cpu().data.numpy())
+                    train_acc = self.__get_acc(prediction, train_y)
+                    print(
+                        'Training... epoch: {}, loss: {}, acc: {}'.format((e + 1), loss.cpu().data.numpy(), train_acc))
+                    torch.save(self.net, net_path)
+                    torch.save(self.net.state_dict(), net_para_path)
 
-                self.test_prediction = test_prediction.cpu().data.numpy()
-                self.test_prediction[self.test_prediction < 0] = 0
+                    self.net.eval()
+                    if torch.cuda.is_available():
+                        test_x = Variable(torch.FloatTensor(self.X_test)).to(device)
+                        test_y = Variable(torch.FloatTensor(self.y_test).type(torch.int64)).to(device)
+                    else:
+                        test_x = Variable(torch.FloatTensor(self.X_test))
+                        test_y = Variable(torch.FloatTensor(self.y_test).type(torch.int64))
 
-                test_acc = self.__get_acc(test_prediction, test_y)
-                print('\033[1;35m Testing... epoch: {}, loss: {}, acc: {} \033[0m!'.format((e + 1),
-                      test_loss.cpu().data.numpy(), test_acc))
+                    test_prediction = self.net(test_x)
+                    test_loss = criterion(test_prediction, test_y)
+                    self.TestLosses.append(test_loss.cpu().data.numpy())
+
+                    self.test_prediction = test_prediction.cpu().data.numpy()
+                    self.test_prediction[self.test_prediction < 0] = 0
+
+                    test_acc = self.__get_acc(test_prediction, test_y)
+                    print('\033[1;35m Testing... epoch: {}, loss: {}, acc: {} \033[0m!'.format((e + 1),
+                                                                                               test_loss.cpu().data.numpy(),
+                                                                                               test_acc))
+
+                    # 已经梯度衰减了 2 次
+                    if self.n == 3:
+                        print('The meaning of the loop is not big, stop!!')
+                        break
+                    limit = self.limit[self.n]
+                    print('Now learning rate is : {}'.format(self.lr[self.n]))
+                    optim.param_groups[0]["lr"] = self.lr[self.n]
 
         end = time.time()
         self.t = end - start
@@ -423,9 +453,10 @@ CNN model
 
 
 class CNN(object):
-    def __init__(self, learning_rate, conv_stride = 1, kernel_size=3, pooling_size=2, pool_stride = 2,
-                 channel_numbers = [], flatten = 1024, activate_function='relu', dropout=0, device=0,
-                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False,
+    def __init__(self, learning_rate, conv_stride=1, kernel_size=3, pooling_size=2, pool_stride=2,
+                 channel_numbers=[], flatten=1024, activate_function='relu', dropout=0, weight_decay=1e-8,
+                 momentum=0.5, device=0, epoch=2000, batch_size=128,
+                 use_more_gpu=False, is_standard=False,
                  Dimensionality_reduction_method='None', save_path='CNN_Results'):
 
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
@@ -436,12 +467,14 @@ class CNN(object):
         self.kernel_size = kernel_size
         self.pooling_size = pooling_size
         self.pool_stride = pool_stride
-        self.channel_numbers = channel_numbers # 每层 conv 的卷积核个数, 即 output_channel
-        self.flatten = flatten # flatten 神经元个数
+        self.channel_numbers = channel_numbers  # 每层 conv 的卷积核个数, 即 output_channel
+        self.momentum = momentum
+        self.flatten = flatten  # flatten 神经元个数
 
         self.lr = learning_rate
         self.activate_function = activate_function
         self.dropout = dropout
+        self.weight_decay = weight_decay
         self.epoch = epoch
         self.batch_size = batch_size
 
@@ -455,6 +488,9 @@ class CNN(object):
 
         self.TrainLosses = []
         self.TestLosses = []
+        self.D = []
+        self.n = 0  # 来记录 梯度衰减 的次数
+        self.limit = [1e-2, 1e-3, 1e-4]
 
     def conv_padding_same(self, W_in):
         ''' 相当于 tensorflow 里面的 paddling = same 操作 '''
@@ -468,7 +504,7 @@ class CNN(object):
         '''
         numbers = len(self.channel_numbers)
         out_shape = (input_size - self.pooling_size) // self.pool_stride + 1
-        for n in range(numbers-1):
+        for n in range(numbers - 1):
             out_shape = (out_shape - self.pooling_size) // self.pool_stride + 1
         return out_shape
 
@@ -480,21 +516,23 @@ class CNN(object):
         if self.activate_function == 'relu':
             activate_function = nn.ReLU(True)
         if self.activate_function == 'sigmoid':
-            activate_function = nn.Sigmoid(True)
+            activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
-            activate_function = nn.Tanh(True)
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU(True)
 
         # input layer
-        padding = self.conv_padding_same(input_size) # 计算要补几层 0
+        padding = self.conv_padding_same(input_size)  # 计算要补几层 0
         conv1 = nn.Conv2d(input_channle, self.channel_numbers[0], kernel_size=self.kernel_size,
                           stride=self.conv_stride, padding=padding)
         pool1 = nn.MaxPool2d(self.pooling_size, self.pool_stride)
         layers.append(conv1)
-        layers.append(nn.BatchNorm2d(self.channel_numbers[0]))
+        layers.append(nn.BatchNorm2d(self.channel_numbers[0], momentum=self.momentum))
         layers.append(activate_function)
         layers.append(nn.Dropout(self.dropout))
         layers.append(pool1)
-        W_in = (input_size - 1) // 2 + 1 # To calculate the shape of matrix after pooling layer.
+        W_in = (input_size - 1) // 2 + 1  # To calculate the shape of matrix after pooling layer.
 
         # hidden layers
         hidden_layers_number = len(self.channel_numbers)
@@ -503,7 +541,7 @@ class CNN(object):
                 padding = self.conv_padding_same(W_in)
                 layers.append(nn.Conv2d(self.channel_numbers[i], self.channel_numbers[i + 1],
                                         kernel_size=self.kernel_size, stride=self.conv_stride, padding=padding))
-                layers.append(nn.BatchNorm2d(self.channel_numbers[i + 1]))
+                layers.append(nn.BatchNorm2d(self.channel_numbers[i + 1], momentum=self.momentum))
                 layers.append(activate_function)
                 layers.append(nn.Dropout(self.dropout))
                 layers.append(nn.MaxPool2d(self.pooling_size, self.pool_stride))
@@ -552,9 +590,11 @@ class CNN(object):
         if self.activate_function == 'relu':
             activate_function = nn.ReLU(True)
         if self.activate_function == 'sigmoid':
-            activate_function = nn.Sigmoid(True)
+            activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
-            activate_function = nn.Tanh(True)
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU(True)
 
         return nn.Sequential(
             nn.Linear(out_shape, self.flatten),
@@ -563,6 +603,15 @@ class CNN(object):
             nn.Linear(self.flatten, output_size)
         )
 
+    def __get_acc(self, prediction, true):
+        ''' calculate the accurary '''
+        prediction = prediction.cpu()
+        true = true.cpu()
+        _, pred = torch.max(prediction, 1)
+        correct_number = torch.sum(pred == true)
+
+        acc = correct_number.numpy() / len(true)
+        return acc
 
     def create_batch_size(self, X_train, y_train):
 
@@ -579,12 +628,15 @@ class CNN(object):
         if y_test.ndim == 1:
             y_test = y_test.reshape(-1, 1)
 
-        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
+        y_onehot = OneHotEncoder().fit_transform(y_train)
+
+        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train.flatten(), \
+                                                               y_test.flatten()
 
         # x_train = [-1, channle, W, H]
         self.W, self.H = int(np.sqrt((X_train.shape[1]))), int(np.sqrt((X_train.shape[1])))
 
-        input_channles, input_size, output_size = 1, self.W, y_train.shape[1]
+        input_channles, input_size, self.output_size = 1, self.W, y_onehot.shape[1]
         self.conv_out = self.conv_shape_out(input_size)
 
         assert self.conv_out >= 1, '卷积层数过多，超出维度限制'
@@ -593,7 +645,7 @@ class CNN(object):
 
         # 搭建卷积模型
         conv = self.conv_model(self.W, input_channles)
-        flatten = self.Linear_model(self.channel_numbers[-1] * self.conv_out**2, output_size)
+        flatten = self.Linear_model(self.channel_numbers[-1] * self.conv_out ** 2, self.output_size)
 
         save_result = os.path.join(self.save_path, 'Results.csv')
         try:
@@ -628,64 +680,89 @@ class CNN(object):
 
         self.net.train()
         try:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=self.weight_decay)
         except:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
-        criterion = torch.nn.MSELoss()
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=self.weight_decay)
+        criterion = torch.nn.CrossEntropyLoss()
 
         start = time.time()
+        limit = self.limit[0]
         for e in range(self.epoch):
 
             # 是否使用 梯度衰减
-            try:
-                if (e + 1) % (self.epoch // 3) == 0:
-                    optim.param_groups[0]["lr"] = self.lr[1]
-                if (e + 1) % (self.epoch // 3 * 2) == 0:
-                    optim.param_groups[0]["lr"] = self.lr[2]
-            except:
-                pass
+            # try:
+            #     if (e + 1) % (self.epoch // 3) == 0:
+            #         optim.param_groups[0]["lr"] = self.lr[1]
+            #     if (e + 1) % (self.epoch // 3 * 2) == 0:
+            #         optim.param_groups[0]["lr"] = self.lr[2]
+            # except:
+            #     pass
 
             for b_train in batch_train_set:
                 if torch.cuda.is_available():
-                    self.net = self.net.cuda()
+                    # self.net = self.net.cuda()
                     train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H)).to(device)
-                    train_y = Variable(b_train[:, -1:]).to(device)
+                    train_y = Variable(b_train[:, -1].type(torch.int64)).to(device)
                 else:
                     train_x = Variable(b_train[:, :-1].view(-1, 1, self.W, self.H))
-                    train_y = Variable(b_train[:, -1:])
+                    train_y = Variable(b_train[:, -1].type(torch.int64))
 
                 prediction = self.net(train_x)
-
                 loss = criterion(prediction, train_y)
 
                 optim.zero_grad()
                 loss.backward()
                 optim.step()
 
-            self.TrainLosses.append(loss.cpu().data.numpy())
+            self.D.append(loss.cpu().data.numpy())
 
-            if (e + 1) % 100 == 0:
-                print('Training... epoch: {}, loss: {}'.format((e + 1), loss.cpu().data.numpy()))
-                torch.save(self.net, net_path)
-                torch.save(self.net.state_dict(), net_para_path)
+            # epoch 终止装置
+            if len(self.D) >= 20:
+                loss1 = np.mean(np.array(self.D[-20:-10]))
+                loss2 = np.mean(np.array(self.D[-10:]))
+                d = np.float(np.abs(loss2 - loss1))
 
-                self.net.eval()
-                if torch.cuda.is_available():
-                    test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H)).to(device)
-                    test_y = Variable(torch.FloatTensor(y_test)).to(device)
-                else:
-                    test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H))
-                    test_y = Variable(torch.FloatTensor(y_test))
+                if d < limit:
+                    self.D = []
+                    self.n += 1
+                    print('The error changes within {}'.format(limit))
+                    self.e = e + 1
 
-                test_prediction = self.net(test_x)
-                test_loss = criterion(test_prediction, test_y)
-                self.TestLosses.append(test_loss.cpu().data.numpy())
+                    self.TrainLosses.append(loss.cpu().data.numpy())
+                    train_acc = self.__get_acc(prediction, train_y)
+                    print(
+                        'Training... epoch: {}, loss: {}, acc: {}'.format((e + 1), loss.cpu().data.numpy(), train_acc))
+                    torch.save(self.net, net_path)
+                    torch.save(self.net.state_dict(), net_para_path)
 
-                self.test_prediction = test_prediction.cpu().data.numpy()
-                self.test_prediction[self.test_prediction < 0] = 0
+                    self.net.eval()
+                    if torch.cuda.is_available():
+                        test_x = Variable(torch.FloatTensor(self.X_test).view(-1, 1, self.W, self.H)).to(device)
+                        test_y = Variable(torch.FloatTensor(self.y_test).type(torch.int64)).to(device)
+                    else:
+                        test_x = Variable(torch.FloatTensor(self.X_test).view(-1, 1, self.W, self.H))
+                        test_y = Variable(torch.FloatTensor(self.y_test).type(torch.int64))
 
-                print(
-                    '\033[1;35m Testing... epoch: {}, loss: {} \033[0m!'.format((e + 1), test_loss.cpu().data.numpy()))
+                    test_prediction = self.net(test_x)
+                    test_loss = criterion(test_prediction, test_y)
+                    self.TestLosses.append(test_loss.cpu().data.numpy())
+
+                    self.test_prediction = test_prediction.cpu().data.numpy()
+                    self.test_prediction[self.test_prediction < 0] = 0
+
+                    test_acc = self.__get_acc(test_prediction, test_y)
+                    print('\033[1;35m Testing... epoch: {}, loss: {}, acc: {} \033[0m!'.format((e + 1),
+                                                                                               test_loss.cpu().data.numpy(),
+                                                                                               test_acc))
+
+                    # 已经梯度衰减了 2 次
+                    if self.n == 3:
+                        print('The meaning of the loop is not big, stop!!')
+                        break
+                    limit = self.limit[self.n]
+                    print('Now learning rate is : {}'.format(self.lr[self.n]))
+                    optim.param_groups[0]["lr"] = self.lr[self.n]
+
         end = time.time()
         self.t = end - start
         print('Training completed!!! Time consuming: {}'.format(str(self.t)))
@@ -702,54 +779,62 @@ class CNN(object):
             test_x = Variable(torch.FloatTensor(X_test).view(-1, 1, self.W, self.H))
             prediction = self.net(test_x)
 
-        prediction = prediction.cpu().data.numpy()
-        prediction[prediction < 0] = 0
-        return prediction
+        prediction = self.net(test_x)
+        prediction = torch.argmax(prediction, dim=1)
+        return prediction.cpu().data.numpy()
 
     def score(self):
 
         assert self.test_prediction is not None, '使用 score 前需要 fit'
 
-        self.mse, self.rmse, self.mae, self.mape, \
-        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(self.y_test, self.test_prediction,
-                                                                    features=self.X_test.shape[-1])
+        self.prediction = self.predict(self.X_test)
+        self.loss = mean_squared_error(self.prediction, self.y_test)
+        self.acc, self.precision, self.recall, self.f1 = tools.clf_calculate(self.y_test, self.prediction)
 
-    def __result_plot(self, save_file):
+    def __confusion_matrix_result(self, save_file, delete_zero=False):
+        ''' delete_zero, 是否除掉 0 标签，适用于极端数据 '''
+        x, y = [], []
+        prediction = self.predict(self.X_test)
+        cnn = tools.confusion_matrix_result(self.y_test, prediction)
+        if delete_zero:
+            cnn = cnn[1:, 1:]
+            for i in range(1, self.output_size):
+                x.append('P' + str(i))
+                y.append('T' + str(i))
+        else:
+            for i in range(self.output_size):
+                x.append('P' + str(i))
+                y.append('T' + str(i))
 
-        plt.plot(range(len(self.test_prediction)), self.test_prediction, 'r--', label='prediction')
-        plt.plot(range(len(self.y_test)), self.y_test, 'b--', label="true")
-        plt.legend()
+        pic = sns.heatmap(cnn, annot=True, yticklabels=y, linewidths=0.5, xticklabels=x, cmap="YlGnBu")
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        sns.set(font_scale=1.5)
+        pic_save = pic.get_figure()
         try:
-            plt.savefig(save_file)
+            pic_save.savefig(save_file)
             print('Save the picture successfully!')
         except:
             print('You have not define the path of saving!')
         plt.close()
 
-    def __loss_plot(self, train_save, test_save):
+    def __loss_plot(self, pic_save):
 
-        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="train_loss")
+        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r--', label="train_loss")
+        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'b--', label="test_loss")
         plt.legend()
         try:
-            plt.savefig(train_save)
+            plt.savefig(pic_save)
             print('Save the picture of training loss successfully!')
         except:
             print('You have not define the path of saving!')
-        plt.close()
-
-        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'r', label="test_loss")
-        plt.legend()
-        try:
-            plt.savefig(test_save)
-            print('Save the picture of testing loss  successfully!')
-        except:
             print('You have not define the path of saving!')
 
         plt.close()
 
     def __save_result(self, save_path):
 
-        assert self.mse is not None, '需要先调用 score 函数'
+        assert self.test_prediction is not None, '需要先调用 score 函数'
 
         layer_numbers = len(self.channel_numbers)
         hidden_layers = str(self.channel_numbers).replace(',', '')
@@ -757,15 +842,17 @@ class CNN(object):
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
-        count = tools.save_cnn_results(self.epoch, self.batch_size, lr, self.dropout, layer_numbers, hidden_layers,
-                               self.kernel_size, self.conv_stride, self.pooling_size, self.pool_stride, self.flatten,
-                               self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
-                               self.r2_adjusted, self.rmsle, self.is_standard, self.t,
-                               self.Dimensionality_reduction_method, save_path, train_type='regression')
-        print('Save results success!')
+        count = tools.save_cnn_results_classification(self.e, self.batch_size, lr, self.dropout, layer_numbers,
+                                                      hidden_layers,
+                                                      self.kernel_size, self.conv_stride, self.pooling_size,
+                                                      self.pool_stride, self.flatten,
+                                                      self.activate_function, self.weight_decay, self.momentum,
+                                                      self.acc, self.precision, self.recall, self.f1,
+                                                      self.is_standard,
+                                                      self.Dimensionality_reduction_method, self.t, save_path)
         return count
 
-    def save(self):
+    def save(self, is_delete_zero=False):
         '''
         保存 pic， prediction，
         :return:
@@ -780,7 +867,7 @@ class CNN(object):
         if not os.path.exists(pred_path):
             os.makedirs(pred_path)
         save_prediction = os.path.join(pred_path, str(count) + '.csv')
-        np.savetxt(save_prediction, self.test_prediction, delimiter=',')
+        np.savetxt(save_prediction, self.prediction, delimiter=',')
         print('Save the value of prediction successfully!!')
 
         # 保存图片
@@ -788,35 +875,26 @@ class CNN(object):
         if not os.path.exists(pic_path):
             os.makedirs(pic_path)
         pic_file = os.path.join(pic_path, str(count) + '.png')
-        self.__result_plot(save_file=pic_file)
+        self.__confusion_matrix_result(save_file=pic_file, delete_zero=is_delete_zero)
 
         # 保存 loss
-        train_loss_path_pic = self.save_path + '/Loss/Train/pic'
-        test_loss_path_pic = self.save_path + '/Loss/Test/pic'
-        train_loss_path_value = self.save_path + '/Loss/Train/Values'
-        test_loss_path_value = self.save_path + '/Loss/Test/Values'
+        loss_path_pic = self.save_path + '/Loss/Pic/'
+        loss_path_value = self.save_path + '/Loss/Values'
 
-        if not os.path.exists(train_loss_path_pic):
-            os.makedirs(train_loss_path_pic)
+        if not os.path.exists(loss_path_pic):
+            os.makedirs(loss_path_pic)
 
-        if not os.path.exists(test_loss_path_pic):
-            os.makedirs(test_loss_path_pic)
+        if not os.path.exists(loss_path_value):
+            os.makedirs(loss_path_value)
 
-        if not os.path.exists(train_loss_path_value):
-            os.makedirs(train_loss_path_value)
-
-        if not os.path.exists(test_loss_path_value):
-            os.makedirs(test_loss_path_value)
-
-        train_loss = os.path.join(train_loss_path_pic, 'Train' + str(count) + '.png')
-        test_loss = os.path.join(test_loss_path_pic, 'Test' + str(count) + '.png')
-        self.__loss_plot(train_save=train_loss, test_save=test_loss)
+        pic_loss = os.path.join(loss_path_pic, 'pic' + str(count) + '.png')
+        self.__loss_plot(pic_save=pic_loss)
 
         train_loss_value = np.array(self.TrainLosses)
         test_loss_value = np.array(self.TestLosses)
 
-        np.savetxt(train_loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
-        np.savetxt(test_loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')
+        np.savetxt(loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
+        np.savetxt(loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')
 
 
 '''
@@ -825,9 +903,9 @@ LSTM model
 
 
 class LSTM():
-    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu', device=0,
-                 use_more_gpu=False, epoch=2000, batch_size=128, save_path='LSTM_Results',
-                 is_standard=False, Dimensionality_reduction_method='None'):
+    def __init__(self, learning_rate, num_layers=2, hidden_size=32, dropout=0, activate_function='relu',
+                 epoch=2000, batch_size=128, weight_decay=1e-8, device=0, use_more_gpu=False,
+                 is_standard=False, Dimensionality_reduction_method='None', save_path='LSTM_Results'):
 
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
         if not os.path.exists(self.save_path):
@@ -838,6 +916,7 @@ class LSTM():
         self.hidden_size = hidden_size
         self.lr = learning_rate
         self.dropout = dropout
+        self.weight_decay = weight_decay
         self.activate_function = activate_function
         self.epoch = epoch
         self.batch_size = batch_size
@@ -852,6 +931,19 @@ class LSTM():
 
         self.TrainLosses = []
         self.TestLosses = []
+        self.D = []
+        self.n = 0 # 来记录 梯度衰减 的次数
+        self.limit = [1e-2, 1e-3, 1e-4]
+
+    def __get_acc(self, prediction, true):
+        ''' calculate the accurary '''
+        prediction = prediction.cpu()
+        true = true.cpu()
+        _, pred = torch.max(prediction, 1)
+        correct_number = torch.sum(pred == true)
+
+        acc = correct_number.numpy() / len(true)
+        return acc
 
     def create_batch_size(self, X_train, y_train):
         p = np.random.permutation(X_train.shape[0])
@@ -881,28 +973,32 @@ class LSTM():
         :param y_train:
         :return:
         '''
-        # if y is a scalar
+        #if y is a scalar
         if y_train.ndim == 1:
             y_train = y_train.reshape(-1, 1)
 
         if y_test.ndim == 1:
             y_test = y_test.reshape(-1, 1)
 
+        y_onehot = OneHotEncoder().fit_transform(y_train)
 
-        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train, y_test
+        self.X_train, self.X_test, self.y_train, self.y_test = X_train, X_test, y_train.flatten(), \
+                                                               y_test.flatten()
 
-        input_size, output_size = X_train.shape[-1], y_train.shape[-1]
+        self.input_size, self.output_size = X_train.shape[-1], y_onehot.shape[-1]
 
-        b_data, b_labels = self.create_batch_size(X_train, y_train)
+        b_data, b_labels = self.create_batch_size(self.X_train, self.y_train)
 
         # 搭建 lstm 网络
         # 判断 激活函数
         if self.activate_function == 'relu':
-            activate_function = nn.ReLU(True)
+            activate_function = nn.ReLU()
         if self.activate_function == 'sigmoid':
-            activate_function = nn.Sigmoid(True)
+            activate_function = nn.Sigmoid()
         if self.activate_function == 'tanh':
-            activate_function = nn.Tanh(True)
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU()
 
         save_result = os.path.join(self.save_path, 'Results.csv')
         try:
@@ -922,10 +1018,10 @@ class LSTM():
             print("Let's use GPU: {}".format(self.device))
         else:
             print("Let's use CPU")
-            
+
         # 实例化网络
-        self.net = lstm_network(input_size=input_size, hidden_size=self.hidden_size, num_layers=self.num_layers,
-                                output_size=output_size, dropout=self.dropout, activate_function=activate_function)
+        self.net = lstm_network(input_size=self.input_size, hidden_size=self.hidden_size, num_layers=self.num_layers,
+                                output_size=self.output_size, dropout=self.dropout, activate_function=activate_function)
         if self.use_more_gpu and torch.cuda.device_count() > 1:
             print("Let's use", torch.cuda.device_count(), "GPUs")
             # dim = 0 [64, xxx] -> [32, ...], [32, ...] on 2GPUs
@@ -938,65 +1034,92 @@ class LSTM():
 
         self.net.train()
         try:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=1e-8)
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr[0], weight_decay=self.weight_decay)
         except:
-            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=1e-8)
-        criterion = torch.nn.MSELoss()
+            optim = torch.optim.Adam(self.net.parameters(), lr=self.lr, weight_decay=self.weight_decay)
+        criterion = torch.nn.CrossEntropyLoss()
 
         start = time.time()
+
+        limit = self.limit[0]
         for e in range(self.epoch):
 
-            # 是否使用 梯度衰减
-            try:
-                if (e + 1) % (self.epoch // 3 * 2) == 0:
-                    optim.param_groups[0]["lr"] = self.lr[1]
-                if (e + 1) % (self.epoch // 3 * 2) == 0:
-                    optim.param_groups[0]["lr"] = self.lr[2]
-            except:
-                pass
-
+            self.net.train()
+            # # 是否使用 梯度衰减
+            # try:
+            #     if (e + 1) % (self.epoch // 3 * 2) == 0:
+            #         optim.param_groups[0]["lr"] = self.lr[1]
+            #     if (e + 1) % (self.epoch // 3 * 2) == 0:
+            #         optim.param_groups[0]["lr"] = self.lr[2]
+            # except:
+            #     pass
+            # break
             for i in range(len(b_data)):
                 if torch.cuda.is_available():
-                    #print('cuda')
-                    self.net = self.net.cuda()
+                    # print('cuda')
+                    # self.net = self.net.cuda()
                     train_x = Variable(torch.FloatTensor(b_data[i])).to(device)
-                    train_y = Variable(torch.FloatTensor(b_labels[i])).to(device)
+                    train_y = Variable(torch.FloatTensor(b_labels[i]).type(torch.int64)).to(device)
                 else:
                     train_x = Variable(torch.FloatTensor(b_data[i]))
-                    train_y = Variable(torch.FloatTensor(b_labels[i]))
+                    train_y = Variable(torch.FloatTensor(b_labels[i]).type(torch.int64))
 
                 prediction = self.net(train_x)
-
                 loss = criterion(prediction, train_y)
 
                 optim.zero_grad()
                 loss.backward()
                 optim.step()
 
-            self.TrainLosses.append(loss.cpu().data.numpy())
+            self.D.append(loss.cpu().data.numpy())
 
-            if (e + 1) % 100 == 0:
-                print('Training... epoch: {}, loss: {}'.format((e+1), loss.cpu().data.numpy()))
-                torch.save(self.net, net_path)
-                torch.save(self.net.state_dict(), net_para_path)
+            # epoch 终止装置
+            if len(self.D) >= 20:
+                loss1 = np.mean(np.array(self.D[-20:-10]))
+                loss2 = np.mean(np.array(self.D[-10:]))
+                d = np.float(np.abs(loss2 - loss1))
 
-                self.net.eval()
-                if torch.cuda.is_available():
-                    test_x = Variable(torch.FloatTensor(X_test)).cuda()
-                    test_y = Variable(torch.FloatTensor(y_test)).cuda()
-                else:
-                    test_x = Variable(torch.FloatTensor(X_test))
-                    test_y = Variable(torch.FloatTensor(y_test))
+                if d < limit:
+                    self.D = []
+                    self.n += 1
+                    print('The error changes within {}'.format(limit))
+                    self.e = e + 1
 
-                test_prediction = self.net(test_x)
-                test_loss = criterion(test_prediction, test_y)
-                self.TestLosses.append(test_loss.cpu().data.numpy())
+                    self.TrainLosses.append(loss.cpu().data.numpy())
+                    train_acc = self.__get_acc(prediction, train_y)
+                    print(
+                        'Training... epoch: {}, loss: {}, acc: {}'.format((e + 1), loss.cpu().data.numpy(), train_acc))
+                    torch.save(self.net, net_path)
+                    torch.save(self.net.state_dict(), net_para_path)
 
-                self.test_prediction = test_prediction.cpu().data.numpy()
-                self.test_prediction[self.test_prediction < 0] = 0
+                    self.net.eval()
+                    if torch.cuda.is_available():
+                        test_x = Variable(torch.FloatTensor(self.X_test)).to(device)
+                        test_y = Variable(torch.FloatTensor(self.y_test).type(torch.int64)).to(device)
+                    else:
+                        test_x = Variable(torch.FloatTensor(self.X_test))
+                        test_y = Variable(torch.FloatTensor(self.y_test).type(torch.int64))
 
-                print(
-                    '\033[1;35m Testing... epoch: {}, loss: {} \033[0m!'.format((e + 1), test_loss.cpu().data.numpy()))
+                    test_prediction = self.net(test_x)
+                    test_loss = criterion(test_prediction, test_y)
+                    self.TestLosses.append(test_loss.cpu().data.numpy())
+
+                    self.test_prediction = test_prediction.cpu().data.numpy()
+                    self.test_prediction[self.test_prediction < 0] = 0
+
+                    test_acc = self.__get_acc(test_prediction, test_y)
+                    print('\033[1;35m Testing... epoch: {}, loss: {}, acc: {} \033[0m!'.format((e + 1),
+                                                                                               test_loss.cpu().data.numpy(),
+                                                                                               test_acc))
+
+                    # 已经梯度衰减了 2 次
+                    if self.n == 3:
+                        print('The meaning of the loop is not big, stop!!')
+                        break
+                    limit = self.limit[self.n]
+                    print('Now learning rate is : {}'.format(self.lr[self.n]))
+                    optim.param_groups[0]["lr"] = self.lr[self.n]
+
 
         end = time.time()
         self.t = end - start
@@ -1013,18 +1136,45 @@ class LSTM():
             test_x = Variable(torch.FloatTensor(X_test))
 
         prediction = self.net(test_x)
-        prediction = prediction.cpu().data.numpy()
-        prediction[prediction < 0] = 0
-        return prediction
+        prediction = torch.argmax(prediction, dim=1)
+        return prediction.cpu().data.numpy()
 
     def score(self):
 
         assert self.test_prediction is not None, '使用 score 前需要 fit'
 
-        self.mse, self.rmse, self.mae, self.mape, \
-        self.r2, self.r2_adjusted, self.rmsle = tools.reg_calculate(self.y_test,
-                                                                    self.test_prediction, self.X_test.shape[-1])
+        self.prediction = self.predict(self.X_test)
+        self.loss = mean_squared_error(self.prediction, self.y_test)
+        self.acc, self.precision, self.recall, self.f1 = tools.clf_calculate(self.y_test, self.prediction)
 
+    def __confusion_matrix_result(self, save_file, delete_zero=False):
+        ''' delete_zero, 是否除掉 0 标签，适用于极端数据 '''
+        x, y = [], []
+        prediction = self.predict(self.X_test)
+        lstm = tools.confusion_matrix_result(self.y_test, prediction)
+        if delete_zero:
+            lstm = lstm[1:, 1:]
+            for i in range(1, self.output_size):
+                x.append('P' + str(i))
+                y.append('T' + str(i))
+        else:
+            for i in range(self.output_size):
+                x.append('P' + str(i))
+                y.append('T' + str(i))
+
+        pic = sns.heatmap(lstm, annot=True, yticklabels=y, linewidths=0.5, xticklabels=x, cmap="YlGnBu")
+        plt.xticks(fontsize=15)
+        plt.yticks(fontsize=15)
+        sns.set(font_scale=1.5)
+        pic_save = pic.get_figure()
+        try:
+            pic_save.savefig(save_file)
+            print('Save the picture successfully!')
+        except:
+            print('You have not define the path of saving!')
+        plt.close()
+
+    '''
     def __result_plot(self, save_file):
 
         plt.plot(range(len(self.test_prediction)), self.test_prediction, 'r--', label='prediction')
@@ -1036,45 +1186,40 @@ class LSTM():
         except:
             print('You have not define the path of saving!')
         plt.close()
+    '''
 
-    def __loss_plot(self, train_save, test_save):
+    def __loss_plot(self, pic_save):
 
-        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r', label="train_loss")
+        plt.plot(range(len(self.TrainLosses)), self.TrainLosses, 'r--', label="train_loss")
+        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'b--', label="test_loss")
         plt.legend()
         try:
-            plt.savefig(train_save)
+            plt.savefig(pic_save)
             print('Save the picture of training loss successfully!')
         except:
             print('You have not define the path of saving!')
-        plt.close()
-
-        plt.plot(range(len(self.TestLosses)), self.TestLosses, 'r', label="test_loss")
-        plt.legend()
-        try:
-            plt.savefig(test_save)
-            print('Save the picture of testing loss  successfully!')
-        except:
             print('You have not define the path of saving!')
 
         plt.close()
 
     def __save_result(self, save_path):
 
-        assert self.mse is not None, '需要先调用 score 函数'
+        assert self.acc is not None, '需要先调用 score 函数'
 
         try:
             lr = str(self.lr).replace(',', '')
         except:
             lr = self.lr
-        count = tools.save_lstm_results(self.epoch, self.batch_size, lr, self.dropout, self.num_layers, self.hidden_size,
-                                self.activate_function, self.mse, self.rmse, self.mae, self.mape, self.r2,
-                                self.r2_adjusted, self.rmsle,
-                                self.is_standard, self.Dimensionality_reduction_method, self.t,
-                                save_path, train_type='regression')
+        count = tools.save_lstm_results_classification(self.e, self.batch_size, lr, self.dropout, self.num_layers,
+                                        self.hidden_size, self.weight_decay,
+                                        self.activate_function, self.acc, self.precision, self.recall,
+                                        self.f1,
+                                        self.is_standard, self.Dimensionality_reduction_method, self.t,
+                                        save_result=save_path)
         print('Save results success!')
         return count
 
-    def save(self):
+    def save(self, is_delete_zero=False):
         '''
         保存 pic， prediction，
         :return:
@@ -1089,7 +1234,7 @@ class LSTM():
         if not os.path.exists(pred_path):
             os.makedirs(pred_path)
         save_prediction = os.path.join(pred_path, str(count) + '.csv')
-        np.savetxt(save_prediction, self.test_prediction, delimiter=',')
+        np.savetxt(save_prediction, self.prediction, delimiter=',')
         print('Save the value of prediction successfully!!')
 
         # 保存图片
@@ -1097,32 +1242,23 @@ class LSTM():
         if not os.path.exists(pic_path):
             os.makedirs(pic_path)
         pic_file = os.path.join(pic_path, str(count) + '.png')
-        self.__result_plot(save_file=pic_file)
+        self.__confusion_matrix_result(save_file=pic_file, delete_zero=is_delete_zero)
 
         # 保存 loss
-        train_loss_path_pic = self.save_path + '/Loss/Train/pic'
-        test_loss_path_pic = self.save_path + '/Loss/Test/pic'
-        train_loss_path_value = self.save_path + '/Loss/Train/Values'
-        test_loss_path_value = self.save_path + '/Loss/Test/Values'
+        loss_path_pic = self.save_path + '/Loss/Pic/'
+        loss_path_value = self.save_path + '/Loss/Values'
 
-        if not os.path.exists(train_loss_path_pic):
-            os.makedirs(train_loss_path_pic)
+        if not os.path.exists(loss_path_pic):
+            os.makedirs(loss_path_pic)
 
-        if not os.path.exists(test_loss_path_pic):
-            os.makedirs(test_loss_path_pic)
+        if not os.path.exists(loss_path_value):
+            os.makedirs(loss_path_value)
 
-        if not os.path.exists(train_loss_path_value):
-            os.makedirs(train_loss_path_value)
-
-        if not os.path.exists(test_loss_path_value):
-            os.makedirs(test_loss_path_value)
-
-        train_loss = os.path.join(train_loss_path_pic, 'Train' + str(count) + '.png')
-        test_loss = os.path.join(test_loss_path_pic, 'Test' + str(count) + '.png')
-        self.__loss_plot(train_save=train_loss, test_save=test_loss)
+        pic_loss = os.path.join(loss_path_pic, 'pic' + str(count) + '.png')
+        self.__loss_plot(pic_save=pic_loss)
 
         train_loss_value = np.array(self.TrainLosses)
         test_loss_value = np.array(self.TestLosses)
 
-        np.savetxt(train_loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
-        np.savetxt(test_loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')
+        np.savetxt(loss_path_value + '/train' + str(count) + '.csv', train_loss_value, delimiter=',')
+        np.savetxt(loss_path_value + '/test' + str(count) + '.csv', test_loss_value, delimiter=',')

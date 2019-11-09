@@ -34,6 +34,11 @@
 3. 添加新调整参数 L2正则（weight_decay）
 4. 添加 CV 网格搜索（目前只有ANN的classification版）
 
+### 2019/11/9:
+
+1. 分类算法更新完毕
+2. 添加了“梯度衰减自动停止装置”，保证精度的同时，提高效率。
+
 ## 使用例子
 ### Regression
 1.'ANN Example (Regression).ipynb' ANN回归模型使用例子

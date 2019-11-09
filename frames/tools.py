@@ -286,3 +286,63 @@ def save_ann_results_classification(epoch, batch_size, lr, dropout, layer_number
         f.write('\n')
 
     return count
+
+
+def save_cnn_results_classification(epoch, batch_size, lr, dropout, conv_layers, channle_numbers, conv_kernel_size, conv_stride,
+                     pooling_size, pooling_stride, flatten, activate_function, weight_decay, momentum, acc, precision,
+                     recall, f1, is_standrad, Dimensionality_reduction_method, t, save_result):
+    # 计算行数，匹配 prediciton 的保存
+    try:
+        count = len(open(save_result, 'rU').readlines())
+    except:
+        count = 1
+
+    if not os.path.exists(save_result):
+        content = 'Count' + ',' + 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'conv_layers' + ',' + \
+                  'channle_numbers' + ',' + 'conv_kernel_size' + ',' + 'conv_stride' + ',' + 'pooling_kernel_size' + \
+                  ',' + 'pooling_stride' + ',' + 'flatten' + ',' + 'activate function' + ',' + 'weight_decay' + ',' + 'momentum' \
+                  + ',' + 'acc' + ',' + 'precision' + ',' + 'recall' + ',' + 'f1' + ','\
+                  + 'is_standard' + ',' + 'Dimensionality_reduction_method' + ',' + 'Time'
+        with open(save_result, 'a') as f:
+            f.write(content)
+            f.write('\n')
+    content = str(count) + ',' + str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' \
+              + str(conv_layers) + ',' + str(channle_numbers) + ',' + str(conv_kernel_size) + ',' + str(conv_stride) \
+              + ',' + str(pooling_size) + ',' + str(pooling_stride) + ',' + str(flatten) + ',' + str(activate_function)\
+              + ',' + str(weight_decay) + ',' + str(momentum) + ',' + str(acc) + ',' + str(precision) \
+              + ',' + str(recall) + ',' + str(f1) + ',' + str(is_standrad) \
+              + ',' + str(Dimensionality_reduction_method) + ',' + str(t)
+    with open(save_result, 'a') as f:
+        f.write(content)
+        f.write('\n')
+
+    return count
+
+def save_lstm_results_classification(epoch, batch_size, lr, dropout, num_layers, hidden_size, activate_function,
+                                     weight_decay, acc, precision, recall, f1, is_standrad,
+                                     Dimensionality_reduction_method, t, save_result):
+
+    # 计算行数，匹配 prediciton 的保存
+    try:
+        count = len(open(save_result, 'rU').readlines())
+    except:
+        count = 1
+
+    if not os.path.exists(save_result):
+        content = 'Count' + ',' + 'epoch' + ',' + 'batch_size' + ',' + 'lr' + ',' + 'dropout' + ',' + 'number layers' \
+                  + ',' + 'hidden_size' + ',' + 'activate function' + ',' + 'weight_decay' + ',' + 'acc' \
+                  + ',' + 'precision' + ',' + 'recall' + ',' \
+                  + 'f1' + ',' + 'is_standard' + ',' + 'Dimensionality_reduction_method' + ',' + 'Time'
+        with open(save_result, 'a') as f:
+            f.write(content)
+            f.write('\n')
+    content = str(count) + ',' + str(epoch) + ',' + str(batch_size) + ',' + str(lr) + "," + str(dropout) + ',' \
+              + str(num_layers) + ',' + str(hidden_size) + ',' + str(weight_decay) + ',' + str(activate_function) \
+              + ',' + str(acc) + ',' \
+              + str(precision) + ',' + str(recall) + ',' + str(f1) +  ',' + str(is_standrad) \
+              + ',' + str(Dimensionality_reduction_method) + ',' + str(t)
+    with open(save_result, 'a') as f:
+        f.write(content)
+        f.write('\n')
+
+    return count

@@ -2,89 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ac8c495-c9b4-450c-ac15-b6ed0d6b8686" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.ipynb_checkpoints/未命名-checkpoint.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/pic2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/pic3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/pic4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Pic/train1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/test4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Loss/Values/train4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Pictures/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Prediction/4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Results.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/1.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/1_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/2.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/2_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/3.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/3_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/4.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ANN_Result/Weight/4_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Pic/pic6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/test6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Loss/Values/train6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Pictures/6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/1.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/2.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/3.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/4.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/5.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Prediction/6.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Results.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/1.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/1_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/2.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/2_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/3.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/3_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/4.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/4_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/5.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/5_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/6.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Classification_results/ANN/Weight/6_parameters.pkl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frames/CV.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frames/DeeplearningClassification2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Classification)-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/ANN Example (Classification)-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ANN Example (Classification).ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/ANN Example (Classification).ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/DeeplearningClassification.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningClassification.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/DeeplearningRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningRegression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frames/tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/tools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frames/DeeplearningClassification2.py" beforeDir="false" afterPath="$PROJECT_DIR$/frames/DeeplearningClassification2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -94,23 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2826">
-              <caret line="370" lean-forward="true" selection-start-line="370" selection-end-line="370" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-18">
-              <caret line="121" selection-start-line="121" selection-end-line="121" />
+            <state relative-caret-position="645">
+              <caret line="55" column="8" selection-start-line="55" selection-start-column="8" selection-end-line="62" selection-end-column="50" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -121,8 +27,71 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="56" column="45" lean-forward="true" selection-start-line="56" selection-start-column="45" selection-end-line="56" selection-end-column="45" />
+            <state relative-caret-position="198">
+              <caret line="255" column="50" selection-start-line="255" selection-start-column="50" selection-end-line="255" selection-end-column="50" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/CV.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3300">
+              <caret line="220" column="72" selection-start-line="220" selection-start-column="72" selection-end-line="220" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/tools.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="117">
+              <caret line="294" column="8" selection-start-line="294" selection-start-column="8" selection-end-line="294" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="36" column="52" selection-start-line="36" selection-start-column="52" selection-end-line="36" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda3/envs/wzd/lib/python3.6/site-packages/torch/nn/functional.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="2055" selection-start-line="2055" selection-end-line="2055" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/anaconda3/envs/wzd/lib/python3.6/site-packages/torch/nn/modules/module.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="492" selection-start-line="492" selection-end-line="492" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="560">
+              <caret line="121" selection-start-line="121" selection-end-line="121" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -133,74 +102,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="60" lean-forward="true" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
+            <state relative-caret-position="225">
+              <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
               <folding>
                 <element signature="e#0#27#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/DimensionReduction.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="12" selection-start-column="12" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/tools.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="204" column="108" lean-forward="true" selection-start-line="204" selection-start-column="108" selection-end-line="204" selection-end-column="108" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/GridSearch.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="70" column="23" selection-start-line="70" selection-start-column="23" selection-end-line="70" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/CV.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="843">
-              <caret line="68" column="45" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/ELM.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1185">
-              <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frames/Based_model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -223,6 +129,9 @@
       <find>score</find>
       <find>__result_plot</find>
       <find>input_size</find>
+      <find>ann</find>
+      <find>lstm</find>
+      <find>__get_acc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -248,11 +157,13 @@
         <option value="$PROJECT_DIR$/frames/DimensionReduction.py" />
         <option value="$PROJECT_DIR$/frames/DeeplearningClassification.py" />
         <option value="$PROJECT_DIR$/DeeplearningClassification2.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/frames/DeeplearningRegression.py" />
+        <option value="$PROJECT_DIR$/test2.py" />
+        <option value="$PROJECT_DIR$/frames/tools.py" />
         <option value="$PROJECT_DIR$/frames/CV.py" />
         <option value="$PROJECT_DIR$/frames/DeeplearningClassification2.py" />
-        <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/frames/tools.py" />
-        <option value="$PROJECT_DIR$/frames/DeeplearningRegression.py" />
+        <option value="$PROJECT_DIR$/test3.py" />
       </list>
     </option>
   </component>
@@ -269,7 +180,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -286,6 +196,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -316,7 +227,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.test3">
     <configuration name="ELM" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="dl-frames" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -338,48 +249,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="GridSearch" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="dl-frames" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/frames" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/frames/GridSearch.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="dl-frames" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/frames" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/frames/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="dl-frames" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -393,6 +262,48 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="dl-frames" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test3" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="dl-frames" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -424,11 +335,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test3" />
+        <item itemvalue="Python.test2" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.tools" />
         <item itemvalue="Python.ELM" />
-        <item itemvalue="Python.GridSearch" />
-        <item itemvalue="Python.test (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -455,7 +366,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.34387755" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39954597" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3989796" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -486,6 +397,11 @@
           <line>67</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test3.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -508,13 +424,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-8">
           <caret line="80" column="23" selection-start-line="80" selection-start-column="23" selection-end-line="80" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/wzd/lib/python3.6/site-packages/torch/nn/modules/module.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="487" selection-start-line="487" selection-end-line="487" />
         </state>
       </provider>
     </entry>
@@ -547,16 +456,25 @@
     <entry file="file://$PROJECT_DIR$/ANN_Result/Loss/Pic/pic4.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Classification_results/ANN/Prediction/3.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ANN Example (Regression).ipynb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/frames/DimensionReduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="12" selection-start-column="12" selection-end-column="12" />
+        <state relative-caret-position="255">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/GridSearch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="915">
+        <state relative-caret-position="1050">
           <caret line="70" column="23" selection-start-line="70" selection-start-column="23" selection-end-line="70" selection-end-column="23" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -566,7 +484,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/ELM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
+        <state relative-caret-position="1245">
           <caret line="83" column="20" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="20" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -581,43 +499,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/CV.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/wzd/lib/python3.6/site-packages/IPython/lib/clipboard.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="843">
-          <caret line="68" column="45" selection-start-line="68" selection-start-column="45" selection-end-line="68" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Classification_results/ANN/Prediction/3.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ANN Example (Regression).ipynb">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="60" lean-forward="true" selection-start-line="4" selection-start-column="60" selection-end-line="4" selection-end-column="60" />
+        <state relative-caret-position="180">
+          <caret line="12" column="52" lean-forward="true" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="52" />
           <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#59#76#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification2.py">
+    <entry file="file://$PROJECT_DIR$/Classification_result/LSTM/Loss/Pic/pic1.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Classification_result/CNN_Results/Results.csv" />
+    <entry file="file://$PROJECT_DIR$/Classification_result/LSTM/Results.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="56" column="45" lean-forward="true" selection-start-line="56" selection-start-column="45" selection-end-line="56" selection-end-column="45" />
+        <state relative-caret-position="645">
+          <caret line="55" column="8" selection-start-line="55" selection-start-column="8" selection-end-line="62" selection-end-column="50" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
+    <entry file="file://$PROJECT_DIR$/frames/CV.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="121" selection-start-line="121" selection-end-line="121" />
+        <state relative-caret-position="3300">
+          <caret line="220" column="72" selection-start-line="220" selection-start-column="72" selection-end-line="220" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="255" column="50" selection-start-line="255" selection-start-column="50" selection-end-line="255" selection-end-column="50" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
@@ -626,20 +545,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frames/tools.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="204" column="108" lean-forward="true" selection-start-line="204" selection-start-column="108" selection-end-line="204" selection-end-column="108" />
+        <state relative-caret-position="117">
+          <caret line="294" column="8" selection-start-line="294" selection-start-column="8" selection-end-line="294" selection-end-column="8" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frames/DeeplearningRegression.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/wzd/lib/python3.6/site-packages/torch/nn/functional.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2826">
-          <caret line="370" lean-forward="true" selection-start-line="370" selection-end-line="370" />
+        <state relative-caret-position="198">
+          <caret line="2055" selection-start-line="2055" selection-end-line="2055" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1012">
+          <caret line="504" column="27" lean-forward="true" selection-start-line="504" selection-start-column="27" selection-end-line="504" selection-end-column="27" />
+          <folding>
+            <element signature="e#19#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/wzd/lib/python3.6/site-packages/torch/nn/modules/module.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="492" selection-start-line="492" selection-end-line="492" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frames/DeeplearningClassification.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="121" selection-start-line="121" selection-end-line="121" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="52" selection-start-line="36" selection-start-column="52" selection-end-line="36" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
