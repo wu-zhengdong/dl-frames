@@ -5,9 +5,9 @@ from torch.utils.data import DataLoader
 
 import numpy as np
 import matplotlib.pyplot as plt
-from NFtorch import tools
-from NFtorch.Based_model import conv_bn_net
-from NFtorch.Based_model import lstm_network
+from . import tools
+from .Based_model import conv_bn_net
+from .Based_model import lstm_network
 
 import os
 import time
@@ -18,21 +18,10 @@ The frames of deep learning technology with regression problems, including ANN, 
 
 
 class ANN():
-    def __init__(self, model,
-                 hidden_layers,
-                 learning_rate,
-                 dropout=0,
-                 activate_function='relu',
-                 epoch=2000,
-                 batch_size=128,
-                 is_standard=False,
-                 weight_decay=1e-8,
-                 device=0,
-                 use_more_gpu=False,
-                 Dimensionality_reduction_method='None',
-                 save_path='ANN_Result'):
+    def __init__(self, hidden_layers, learning_rate, dropout=0, activate_function='relu', device=0,
+                 use_more_gpu=False, epoch=2000, batch_size=128, is_standard=False, weight_decay=1e-8,
+                 Dimensionality_reduction_method='None', save_path='ANN_Result'):
 
-        self.model = model
         self.save_path = save_path  # 设置一条保存路径，直接把所有的值都收藏起来
         if not os.path.exists(self.save_path):
             os.makedirs(self.save_path)
@@ -60,6 +49,95 @@ class ANN():
         self.D = []
         self.n = 0  # 来记录 梯度衰减 的次数
         self.limit = [1e-2, 1e-3, 1e-4]
+
+    def model(self, input_size, output_size):
+        ''' create network '''
+        hidden_layers = self.hidden_layers
+        layers = []
+
+        # 判断 激活函数
+        if self.activate_function == 'relu':
+            activate_function = nn.ReLU(True)
+        if self.activate_function == 'sigmoid':
+            activate_function = nn.Sigmoid()
+        if self.activate_function == 'tanh':
+            activate_function = nn.Tanh()
+        if self.activate_function == 'LeakyReLU':
+            activate_function = nn.LeakyReLU(True)
+
+        # input_layer
+        input_layer = nn.Linear(input_size, hidden_layers[0])
+        layers.append(input_layer)
+        layers.append(activate_function)
+        layers.append(nn.Dropout(self.dropout))
+
+        # hidden layers
+        hidden_layers_number = len(hidden_layers)  # 隐藏层个数
+
+        for i in range(hidden_layers_number):
+            try:
+                layers.append(nn.Linear(hidden_layers[i], hidden_layers[i + 1]))
+                layers.append(activate_function)
+                layers.append(nn.Dropout(self.dropout))
+            except:
+                pass
+
+        # output layer
+        output_layer = nn.Linear(hidden_layers[-1], output_size)
+        layers.append(output_layer)
+
+        # create network 找不到好办法，只能用 if else 去判断网络层数来搭建，这样的缺陷是：网络不能动态调整
+        if hidden_layers_number == 1:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3]
+            )
+
+        if hidden_layers_number == 2:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6]
+            )
+        if hidden_layers_number == 3:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9]
+            )
+
+        if hidden_layers_number == 4:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12]
+            )
+
+        if hidden_layers_number == 5:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], layers[13], layers[14],
+                layers[15],
+            )
+
+        if hidden_layers_number == 6:
+            seq_net = nn.Sequential(
+                layers[0], layers[1], layers[2],
+                layers[3], layers[4], layers[5],
+                layers[6], layers[7], layers[8],
+                layers[9], layers[10], layers[11],
+                layers[12], layers[13], layers[14],
+                layers[15], layers[16], layers[17],
+                layers[18]
+            )
+
+        return seq_net
 
     def create_batch_size(self, X_train, y_train):
 
