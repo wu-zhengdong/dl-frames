@@ -22,6 +22,10 @@
 ## frames tutorial
 
 Example 文件夹里面，这个版本属于初代版本，不需要构造模型，输入参数，像sklearn一样使用即可
+
+## Bayes Opt.
+贝叶斯优化
+
 ## History
 
 1, 2019/07/31: add DeeplearningRegression ANN model. "./frames/DeeplearningRegression.py"    
