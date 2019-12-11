@@ -1,3 +1,4 @@
+![](https://github.com/ugggddd/dl-frames/blob/master/figures/NFCollege.png)
 # <center>中山大学南方学院大数据与人工智能研究中心</center>
 
 ---
